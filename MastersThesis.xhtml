@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/TR/2001/REC-MathML2-20010221/dtd/xhtml-math11-f.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="GENERATOR" content="LyX 2.0.5" />
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<title>Master's Thesis (Draft v.0.0.1)</title>
+
+<!-- Text Class Preamble -->
+<style type="text/css">
+div.toc {
+margin: 2em 0em;
+border-style: solid;
+border-width: 2px 0px;
+padding: 1em 0em;
+}
+div.tochead { font-size: x-large; font-weight: bold; }
+div.lyxtoc-0 {
+margin: 2em 0em 0em 0em;
+font-size: xx-large;
+font-weight: bold;
+}
+div.lyxtoc-1 {
+margin: 1em 0em 0em 0em;
+font-size: x-large;
+font-weight: bold;
+}
+div.lyxtoc-2 {
+margin: 0em 0em 0em 1em;
+font-size: large;
+font-weight: normal;
+}
+div.lyxtoc-3 { margin: 0em 0em 0em 0.5em; font-size: medium; }
+div.lyxtoc-4 { margin: 0em 0em 0em 0.5em; }
+div.lyxtoc-5 { margin: 0em 0em 0em 0.5em; }
+div.lyxtoc-6 { margin: 0em 0em 0em 0.5em; }
+a.tocentry {
+text-decoration: none;
+color: black;
+}
+a.tocentry:visited { color: black; }
+a.tocarrow {
+font-weight: bold;
+text-decoration: none;
+color: #909090;
+}
+a.tocarrow:visited { color: #C0C0C0; }
+</style>
+
+<!-- Preamble Snippets -->
+<style type="text/css">
+div.bibtexentry { margin-left: 2em; text-indent: -2em; }
+span.bibtexlabel:before{ content: "["; }
+span.bibtexlabel:after{ content: "] "; }
+</style>
+
+<!-- Layout-provided Styles -->
+<style type="text/css">
+h1.title {
+font-size: x-large;
+margin-bottom: 1ex;
+text-align: center;
+
+}
+div.standard {
+margin-bottom: 2ex;
+}
+div.author {
+font-size: large;
+margin-top: 1.3ex;
+margin-bottom: 0.7ex;
+text-align: center;
+
+}
+h2.section_ {
+font-weight: bold;
+font-size: x-large;
+margin-top: 1.3ex;
+margin-bottom: 0.7ex;
+text-align: left;
+
+}
+div.date {
+font-size: large;
+margin-top: 0.9ex;
+margin-bottom: 0.5ex;
+text-align: center;
+
+}
+h2.section {
+font-weight: bold;
+font-size: x-large;
+margin-top: 1.3ex;
+margin-bottom: 0.7ex;
+text-align: left;
+
+}
+h3.subsection {
+font-weight: bold;
+font-size: large;
+margin-top: 0.9ex;
+margin-bottom: 0.5ex;
+text-align: left;
+
+}
+ul.itemize {
+margin-top: 0.7ex;
+margin-bottom: 0.7ex;
+margin-left: 3ex;
+text-align: left;
+
+}
+h4.subsubsection {
+font-weight: bold;
+font-size: medium;
+margin-top: 0.7ex;
+margin-bottom: 0.4ex;
+text-align: left;
+
+}
+div.plain_layout {
+text-align: left;
+
+}
+ div.note_comment {
+   display: none;
+ }
+</style>
+</head>
+<body>
+<h1 class="title"><a id="magicparlabel-226" />
+Master's Thesis (Draft v.0.0.1)</h1>
+<div class="standard" style="text-align: center;"><a id="magicparlabel-227" />
+Fulltext search in the database and in texts of social networks</div>
+
+<div class="standard" style="text-align: center;"><a id="magicparlabel-228" />
+</div>
+<div style="height:1em" />
+<div class="author"><a id="magicparlabel-229" />
+Jan Koreň</div>
+<div class="author"><a id="magicparlabel-230" />
+<br />
+</div>
+<h2 class="section_"><a id="magicparlabel-235" />
+Declaration</h2>
+<div class="standard"><a id="magicparlabel-236" />
+I hereby declare that this bachelor thesis is completely my own work and that I used only the cited sources. </div>
+<div class="date"><a id="magicparlabel-237" />
+Pilsen, Jan Koreň</div>
+<div class="standard"><a id="magicparlabel-238" />
+<br />
+</div>
+<h2 class="section_"><a id="magicparlabel-239" />
+Acknowledgements</h2>
+<div class="standard"><a id="magicparlabel-240" />
+I would like to thank to TODO :)</div>
+
+<div class="standard"><a id="magicparlabel-241" />
+<br />
+</div>
+<h2 class="section_"><a id="magicparlabel-242" />
+Abstract</h2>
+<div class="standard"><a id="magicparlabel-243" />
+This thesis is focused on design and implementation of the full text search in EEG/ERP Portal. This full text search capability includes searching text in the EEG/ERP Portal database as well as in related data from social networks, such as LinkedIn or Facebook. With the development of the portal and the increasing amount of processed data, a proper full text search mechanism for information retrieval is necessary for improving the user experience. </div>
+
+<div class="standard"><a id="magicparlabel-244" />
+<br />
+</div>
+<h2 class="section_"><a id="magicparlabel-245" />
+Keywords</h2>
+<div class="standard"><a id="magicparlabel-246" />
+Lucene, Solr, full text search</div>
+
+<div class="standard"><a id="magicparlabel-247" />
+<br />
+</div>
+
+<div class="standard"><a id="magicparlabel-248" />
+</div>
+<div class="toc"><div class="tochead part">Table of Contents</div>
+
+<div class="lyxtoc-1"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-235" class="tocentry">Declaration</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-235" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-1"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-239" class="tocentry">Acknowledgements</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-239" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-1"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-242" class="tocentry">Abstract</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-242" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-1"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-245" class="tocentry">Keywords</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-245" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-1"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-259" class="tocentry">1 Introduction</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-259" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-1"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-262" class="tocentry">2 Full text Search</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-262" class="tocarrow">&gt;</a>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-264" class="tocentry">2.1 Principles of Full Text Search</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-264" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-266" class="tocentry">2.2 Search Engines</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-266" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-271" class="tocentry">2.3 Indexing</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-271" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-273" class="tocentry">2.4 Searching Features</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-273" class="tocarrow">&gt;</a></div>
+</div>
+
+<div class="lyxtoc-1"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-275" class="tocentry">3 Available Search Engines</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-275" class="tocarrow">&gt;</a>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-277" class="tocentry">3.1 Indri</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-277" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-279" class="tocentry">3.2 Lucene</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-279" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-284" class="tocentry">3.3 Sphinx</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-284" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-286" class="tocentry">3.4 Xapian</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-286" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-288" class="tocentry">3.5 Zettair</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-288" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-291" class="tocentry">3.6 Lucene-based search engines</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-291" class="tocarrow">&gt;</a>
+
+<div class="lyxtoc-3"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-293" class="tocentry">3.6.1 Hibernate Search</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-293" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-3"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-295" class="tocentry">3.6.2 Solr</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-295" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-3"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-298" class="tocentry">3.6.3 ElasticSearch</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-298" class="tocarrow">&gt;</a></div>
+</div>
+</div>
+
+<div class="lyxtoc-1"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-300" class="tocentry">4 EEG/ERP Portal</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-300" class="tocarrow">&gt;</a>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-301" class="tocentry">4.1 About EEG/ERP Portal</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-301" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-303" class="tocentry">4.2 Current state of fulltext search</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-303" class="tocarrow">&gt;</a>
+
+<div class="lyxtoc-3"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-304" class="tocentry">4.2.1 Database search</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-304" class="tocarrow">&gt;</a></div>
+</div>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-305" class="tocentry">4.3 Desired improvements of fulltext search</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-305" class="tocarrow">&gt;</a>
+
+<div class="lyxtoc-3"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-306" class="tocentry">4.3.1 Social Network search</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-306" class="tocarrow">&gt;</a></div>
+</div>
+</div>
+
+<div class="lyxtoc-1"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-307" class="tocentry">5 Analysis</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-307" class="tocarrow">&gt;</a>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-308" class="tocentry">5.1 Search engine choice</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-308" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-309" class="tocentry">5.2 How Lucene works</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-309" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-310" class="tocentry">5.3 Instalation</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-310" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-312" class="tocentry">5.4 Solr Index</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-312" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-314" class="tocentry">5.5 Ways of Indexing in Solr</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-314" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-317" class="tocentry">5.6 Integration</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-317" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-319" class="tocentry">5.7 SolrJ</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-319" class="tocarrow">&gt;</a></div>
+</div>
+
+<div class="lyxtoc-1"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-321" class="tocentry">6 Index design</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-321" class="tocarrow">&gt;</a>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-322" class="tocentry">6.1 Search Requirements</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-322" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-324" class="tocentry">6.2 Index Structure Specifics</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-324" class="tocarrow">&gt;</a></div>
+</div>
+
+<div class="lyxtoc-1"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-326" class="tocentry">7 Fulltext Search Design</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-326" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-1"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-328" class="tocentry">8 Implementation</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-328" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-1"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-330" class="tocentry">9 Testing</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-330" class="tocarrow">&gt;</a>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-332" class="tocentry">9.1 Unit Tests</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-332" class="tocarrow">&gt;</a></div>
+
+<div class="lyxtoc-2"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-333" class="tocentry">9.2 UI Tests (Selenium)</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-333" class="tocarrow">&gt;</a></div>
+</div>
+
+<div class="lyxtoc-1"><a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-334" class="tocentry">10 Conclusion</a> <a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#magicparlabel-334" class="tocarrow">&gt;</a></div>
+</div>
+
+
+<div class="standard"><a id="magicparlabel-249" />
+<br />
+</div>
+
+<div class="standard"><a id="magicparlabel-254" />
+</div>
+<h2 class="section"><span class="section_label">1</span> <a id="magicparlabel-259" />
+Introduction</h2>
+<div class="standard"><a id="magicparlabel-260" />
+Information and efficient access to it form an essential part of life in a modern society. With the information explostion caused mainly by the World Wide Web and digital repositories, nowadays people are exposed to much more information than they used to. In order to obtain required information, they have to search it. Simple categorization, although doable, has been no longer an efficent method for data search, so new more sophisticated solutions were needed.</div>
+
+<div class="standard"><a id="magicparlabel-261" />
+TODO</div>
+<h2 class="section"><span class="section_label">2</span> <a id="magicparlabel-262" />
+Full text Search</h2>
+<div class="standard"><a id="magicparlabel-263" />
+TODO</div>
+<h3 class="subsection"><span class="subsection_label">2.1</span> <a id="magicparlabel-264" />
+Principles of Full Text Search</h3>
+<div class="standard"><a id="magicparlabel-265" />
+Todo Lucene in Action and other sources</div>
+<h3 class="subsection"><span class="subsection_label">2.2</span> <a id="magicparlabel-266" />
+Search Engines</h3>
+<div class="standard"><a id="magicparlabel-267" />
+It is a software that is responsible for two steps:</div>
+
+<ul class="itemize"><li class="itemize_item"><a id="magicparlabel-268" />
+building an index on text</li>
+<li class="itemize_item"><a id="magicparlabel-269" />
+answering queries by using the created index</li>
+</ul>
+<div class="standard"><a id="magicparlabel-270" />
+Compared to databases, it beats them by scalability, relevance ranking, integration of different data sources (email, web pages, files, database, ...)</div>
+<h3 class="subsection"><span class="subsection_label">2.3</span> <a id="magicparlabel-271" />
+Indexing</h3>
+<div class="standard"><a id="magicparlabel-272" />
+Todo</div>
+<h3 class="subsection"><span class="subsection_label">2.4</span> <a id="magicparlabel-273" />
+Searching Features</h3>
+<div class="standard"><a id="magicparlabel-274" />
+Todo</div>
+<h2 class="section"><span class="section_label">3</span> <a id="magicparlabel-275" />
+Available Search Engines</h2>
+<div class="standard"><a id="magicparlabel-276" />
+According to the comparisons of fulltext search engines in Middleton a Baeza-Yates (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Middleton_Baeza">2007</a>) and Singh (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Singh_Search_Engines">2009</a>), there are several reasonable options to choose from. Unfortunately, there is not enough comparative benchmarks on performance of search engines. Available comparisons are often not so objective since, for example, only the default settings of search engines are used in the tests or just one use case is applied (as in Singh (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Singh_Search_Engines">2009</a>)). This may lead to false conclusions obtained from these benchmarks because search engines' capabilities might not have been fully demonstrated and tested. It is also worth mentioning that some comparisons were made a few years ago and are likely to be out-dated since these technologies evolve quite quickly. All these experiments showed, however, that database fulltext search possibilities are way too slow Arslan a Yilmazel (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Benchmark_Lucene_RelDB">2010</a>); Jayant (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Benchmark_Mysql_Lucene_Sphinx">2006</a>).</div>
+<h3 class="subsection"><span class="subsection_label">3.1</span> <a id="magicparlabel-277" />
+Indri</h3>
+<div class="standard"><a id="magicparlabel-278" />
+Indri Indri_Home (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Indri_Home">Žádný rok</a>) is an academic C++ based text search engine developed at the University of Massachusetts and is a part of the Lemur Project. The engine is interesting because of its implementation as it combines inference networks with language modeling. Its API is accessible also from other languages such as Java or C#. Great support of scaling and support of true multithreaded operation, enabling concurrent adding, querying and deleting documents belong to its main features. In the technical paper Howard Turtle, Yatish Hegde (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Comparison_Lucene_Indri">2012</a>) it was shown that Indri is very performant and in comparison with Lucene it achieves even better results in terms of retrieval effectiveness for short queries, index size and performance.</div>
+<h3 class="subsection"><span class="subsection_label">3.2</span> <a id="magicparlabel-279" />
+Lucene</h3>
+<div class="standard"><a id="magicparlabel-280" />
+Lucene Lucene_Home (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Lucene_Home">Žádný rok</a>) is an open source Java-based search library. It can enrich applications by its ability to index data and search over them. These two main items form what is commonly reffered to as Lucene core. Apart from the core, its latest version comprises useful features related to full text search problems (e.g. result highlighting). Lucene is highly modularized and its API enables a user to extend its functionality relatively easily [citace]. </div>
+
+<div class="standard"><a id="magicparlabel-281" />
+It stores its index as files on disk. When the search is made, segments of indexes are copied to memory, thus its memory consumption is high and mostly fixed. It is important for a Lucene user that index is basically a collection of documents </div>
+
+<div class="standard"><a id="magicparlabel-282" />
+According to Middleton a Baeza-Yates (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Middleton_Baeza">2007</a>); Howard Turtle, Yatish Hegde (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Comparison_Lucene_Indri">2012</a>), it belongs to the fastest engines and its performance shines especially when querying one- or two-word phrases. Its small size of index it creates is also a plus when the lack of memory could be an issue. Thanks to its portability and its active development and active and numerous community, it has become the leading open source search engine used in many successful projects Lucene_Who_Uses (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Lucene_Who_Uses">Žádný rok</a>).</div>
+
+<div class="standard"><a id="magicparlabel-283" />
+The current version of Lucene, Lucene 4.0, “represents a significant milestone in the development of Lucene due to a number of new features and efficiency improvements as compared to previous versions of Lucene.” Andrzej Bialecki, Robert Muir (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Apache_Lucene_4">2012</a>)</div>
+<h3 class="subsection"><span class="subsection_label">3.3</span> <a id="magicparlabel-284" />
+Sphinx</h3>
+<div class="standard"><a id="magicparlabel-285" />
+Sphinx Sphinx_Home (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Sphinx_Home">Žádný rok</a>) is an open source search server distributed under GPL license. It consists of an indexing tool, i.e. indexer, and a searching daemon. Sphinx is written in C++ and is especially designed for indexing databases (it integrates well with MySQL), allowing a user to issue queries with SQL-like syntax for indexing the database content and searching in the index. Besides database indexing, it also supports an XML format for arbitrary data. Considering results from all found benchmarks involving Sphinx Indri_Home (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Indri_Home">Žádný rok</a>); Middleton a Baeza-Yates (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Middleton_Baeza">2007</a>); Gupta (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Benchmark_Lucene_Sphinx_Newer">2009</a>); Jayant (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Benchmark_Mysql_Lucene_Sphinx">2006</a>), its indexing speed is quick and its search speed belongs to the fastest ones. It offers API bindings for several platforms/languages, including Java. Among its strengths we can name quick installation and deployment and a perfect online documentation for an open source project. Extensibility is quite an issue if our application requires additional features [citace]. It its well-suited for fulltext database searches on a huge amount of documents.</div>
+<h3 class="subsection"><span class="subsection_label">3.4</span> <a id="magicparlabel-286" />
+Xapian</h3>
+<div class="standard"><a id="magicparlabel-287" />
+According to information found on its official website Xapian_Home (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Xapian_Home">Žádný rok</a>), it is an Open Source Search Library written in C++. It provides a user with bindings that allow to use it from a couple of other languages, including Java, C# or Ruby. Its index size is generally larger when compared to other search engines, but this extra piece of information contained in the index allows Xapian to delete or update a document in a more correct way. It is done by storing a list of elements in each document in the termlist tableBetts (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Xapian_Index_Size">2012</a>). Its performance is said to be equally good as the one of Lucene [citace].</div>
+<h3 class="subsection"><span class="subsection_label">3.5</span> <a id="magicparlabel-288" />
+Zettair</h3>
+<div class="standard"><a id="magicparlabel-289" />
+Another search engine that received a very positive rating in Middleton a Baeza-Yates (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Middleton_Baeza">2007</a>) is Zettair Zettair_Home (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Zettair_Home">Žádný rok</a>). The comparison in this paper concludes that Zettair has the fastest indexer, provides fast querying speeds and has also the best precision/recall ratio in average. Zettair is being developed at the Australian university and is written entirely in C. One of its main features is the ability to handle large data sets (100GB and more) due to its scalability to large collections Zettair_Home (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Zettair_Home">Žádný rok</a>).</div>
+
+<div class="standard"><a id="magicparlabel-290" />
+Among its disadvantages belong its inability to index nothing else than text and html and the fact that the index cannot be built in parallel using multiple machines. There are currently no ports to other languages available which might be also a downside for a given case.</div>
+<h3 class="subsection"><span class="subsection_label">3.6</span> <a id="magicparlabel-291" />
+Lucene-based search engines</h3>
+<div class="standard"><a id="magicparlabel-292" />
+Since the latter part of the thesis will be focused on Lucene, it is also necessary to introduce technologies that use Lucene as its basis. These technologies provide a higher-level apporach to full text search over data when compared to manipulating input data and Lucene index by just using pure Lucene API.</div>
+<h4 class="subsubsection"><span class="subsubsection_label">3.6.1</span> <a id="magicparlabel-293" />
+Hibernate Search</h4>
+<div class="standard"><a id="magicparlabel-294" />
+Hibernate Search Hibernate_Search_Home (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Hibernate_Search_Home">Žádný rok</a>) forms a bridge between Hibernate and Lucene. The aim of Hibernate Search is to enable fulltext search over persistent domain model by overcoming certain mismatches between the domain model and simple Lucene document. In order to make it work, Hibernate or JPA must be used as an object-relational mapping between Java objects and database tables. It leverages the power of Lucene for indexing and searching and of Solr (more about Solr can be found in section 3.6.2), whose of useful features and analyzers can be used. It works with persisted Hibernate entities which are then made searchable in Lucene index. In order to achieve that, created model classes are added specific annotations for fulltext search purposes. Apart from annotating the entities that should be indexed, no extra configuration is needed. By default, Hibernate Search automatically updates Lucene index after an object is saved or updated through Hibernate.</div>
+<h4 class="subsubsection"><span class="subsubsection_label">3.6.2</span> <a id="magicparlabel-295" />
+Solr</h4>
+<div class="standard"><a id="magicparlabel-296" />
+Solr Solr_Home (<a href="file:///C:/Users/Jan%20Koren/AppData/Local/Temp/lyx_tmpdir.p66344/lyx_tmpbuf2/MastersThesisKoren.xhtml#Solr_Home">Žádný rok</a>) is an open source search server built on top of Lucene which runs within a servlet container such as Jetty or Tomcat. As in case of Hibernate Search, Lucene is used for the core functionality – indexing and searching. Solr extends Lucene by providing many useful features related to full text search, e.g. hit highlighting, faceted search, rich document handling or the „did you mean“ feature, just to name a few. Since Solr runs as a separate process, it communicates with applications via HTTP requests, which represent query data, and HTTP responses, representing search results found in the index, by exposing its REST-like API. This technology is configuration-driven and in some cases everything can be set up with no need of writing a single line of Java code. </div>
+
+<div class="standard"><a id="magicparlabel-297" />
+SolrJ client is a recommended way of how to integrate an existing Java application with the Solr server.</div>
+<h4 class="subsubsection"><span class="subsubsection_label">3.6.3</span> <a id="magicparlabel-298" />
+ElasticSearch</h4>
+<div class="standard"><a id="magicparlabel-299" />
+Todo</div>
+<h2 class="section"><span class="section_label">4</span> <a id="magicparlabel-300" />
+EEG/ERP Portal</h2>
+<h3 class="subsection"><span class="subsection_label">4.1</span> <a id="magicparlabel-301" />
+About EEG/ERP Portal</h3>
+<div class="standard"><a id="magicparlabel-302" />
+Todo</div>
+<h3 class="subsection"><span class="subsection_label">4.2</span> <a id="magicparlabel-303" />
+Current state of fulltext search</h3>
+<h4 class="subsubsection"><span class="subsubsection_label">4.2.1</span> <a id="magicparlabel-304" />
+Database search</h4>
+<h3 class="subsection"><span class="subsection_label">4.3</span> <a id="magicparlabel-305" />
+Desired improvements of fulltext search</h3>
+<h4 class="subsubsection"><span class="subsubsection_label">4.3.1</span> <a id="magicparlabel-306" />
+Social Network search</h4>
+<h2 class="section"><span class="section_label">5</span> <a id="magicparlabel-307" />
+Analysis</h2>
+<h3 class="subsection"><span class="subsection_label">5.1</span> <a id="magicparlabel-308" />
+Search engine choice</h3>
+<h3 class="subsection"><span class="subsection_label">5.2</span> <a id="magicparlabel-309" />
+How Lucene works</h3>
+<h3 class="subsection"><span class="subsection_label">5.3</span> <a id="magicparlabel-310" />
+Instalation</h3>
+<div class="standard"><a id="magicparlabel-311" />
+Distributed as a .war archive</div>
+<h3 class="subsection"><span class="subsection_label">5.4</span> <a id="magicparlabel-312" />
+Solr Index</h3>
+<div class="standard"><a id="magicparlabel-313" />
+Todo</div>
+<h3 class="subsection"><span class="subsection_label">5.5</span> <a id="magicparlabel-314" />
+Ways of Indexing in Solr</h3>
+<div class="standard"><a id="magicparlabel-315" />
+Todo</div>
+
+<div class="standard"><a id="magicparlabel-316" />
+DataImportHandler vs. SolrJ</div>
+<h3 class="subsection"><span class="subsection_label">5.6</span> <a id="magicparlabel-317" />
+Integration</h3>
+<div class="standard"><a id="magicparlabel-318" />
+Todo</div>
+<h3 class="subsection"><span class="subsection_label">5.7</span> <a id="magicparlabel-319" />
+SolrJ</h3>
+<div class="standard"><a id="magicparlabel-320" />
+Todo</div>
+<h2 class="section"><span class="section_label">6</span> <a id="magicparlabel-321" />
+Index design</h2>
+<h3 class="subsection"><span class="subsection_label">6.1</span> <a id="magicparlabel-322" />
+Search Requirements</h3>
+<div class="standard"><a id="magicparlabel-323" />
+The current version of EEG/ERP Portal uses Hibernate Search to implement the fulltext search feature. This framework is sufficient for dealing with input data coming only from a database data source. This is because of the fact that the technology is based on Hibernate, a powerful object-relational mapping framework. Hibernate Search uses internally Lucene and Solr analyzers to provide the full text search itself. However, the current implementation suffers from several issues which are desired to be fixed. The highlighting functionality does not work as expected in certain cases. </div>
+<h3 class="subsection"><span class="subsection_label">6.2</span> <a id="magicparlabel-324" />
+Index Structure Specifics</h3>
+<div class="standard"><a id="magicparlabel-325" />
+Compared to traditional relational databases, the Solr index lacks the possibility to create more structured content. An analogy to the index would be a single large table in the relational world. As a relational table, index structure is flat and does not allow nesting documents to form hierarchical structures as in the case of document databases like MongoDB.</div>
+<h2 class="section"><span class="section_label">7</span> <a id="magicparlabel-326" />
+Fulltext Search Design</h2>
+<div class="standard"><a id="magicparlabel-327" />
+Being aware of the index structure and its specifics, it is almost always necessary to make a kind of transformation from the relational to the index form in order to make the full text search work properly and efficiently. There are several ways to accomplish this goal, one of them involves flattening the relational structure. This leads to denormalized data which is mostly unacceptable in relational databases, but since index is quite different from databases, denormalization is even desired. The main thing one should know when desiging an index structure is to know which search results a user expects and how the final representation of full text results should look like.</div>
+<h2 class="section"><span class="section_label">8</span> <a id="magicparlabel-328" />
+Implementation</h2>
+<div class="standard"><a id="magicparlabel-329" />
+Indexers</div>
+<h2 class="section"><span class="section_label">9</span> <a id="magicparlabel-330" />
+Testing</h2>
+<div class="standard"><a id="magicparlabel-331" />
+Todo</div>
+<h3 class="subsection"><span class="subsection_label">9.1</span> <a id="magicparlabel-332" />
+Unit Tests</h3>
+<h3 class="subsection"><span class="subsection_label">9.2</span> <a id="magicparlabel-333" />
+UI Tests (Selenium)</h3>
+<h2 class="section"><span class="section_label">10</span> <a id="magicparlabel-334" />
+Conclusion</h2>
+<div class="standard"><a id="magicparlabel-335" />
+<div class="note_comment"><div class="plain_layout"><a id="magicparlabel-339" />
+<h2 class="bibtex">References</h2><div class="bibtex"><div class="bibtexentry"><a id="LyXCite-Apache_Lucene_4" />
+<span class="bibtexlabel">Andrzej Bialecki, Robert Muir 2012</span><span class="bibtexinfo">Andrzej Bialecki, Robert Muir, Grant Ingersoll, "Apache Lucene 4", in <i>Proceedings of the SIGIR 2012 Workshop on Open Source Information Retrieval</i> vol. 46, no. 2 (, 2012), pp. 17--24.</span></div>
+<div class="bibtexentry"><a id="LyXCite-Benchmark_Lucene_RelDB" />
+<span class="bibtexlabel">Arslan a Yilmazel 2010</span><span class="bibtexinfo">Arslan, A. and Yilmazel, O., "Quality benchmarking relational databases and Lucene in the TREC4 adhoc task environment", in <i>Computer Science and Information Technology (IMCSIT), Proceedings of the 2010 International Multiconference on</i> (, 2010), pp. 365 -372.</span></div>
+<div class="bibtexentry"><a id="LyXCite-Xapian_Index_Size" />
+<span class="bibtexlabel">Betts 2012</span><span class="bibtexinfo">Olly Betts, "Index Size Comparison" (2012).</span></div>
+<div class="bibtexentry"><a id="LyXCite-Benchmark_Lucene_Sphinx_Newer" />
+<span class="bibtexlabel">Gupta 2009</span><span class="bibtexinfo">Anshum Gupta, "Lucene Vs Sphinx - A Showdown on a large dataset" (2009).</span></div>
+<div class="bibtexentry"><a id="LyXCite-Hibernate_Search_Home" />
+<span class="bibtexlabel">Hibernate_Search_Home Žádný rok</span><span class="bibtexinfo">"Hibernate Search Homepage".</span></div>
+<div class="bibtexentry"><a id="LyXCite-Comparison_Lucene_Indri" />
+<span class="bibtexlabel">Howard Turtle, Yatish Hegde 2012</span><span class="bibtexinfo">Howard Turtle, Yatish Hegde, Steven A. Rowe, "Yet another comparison of Lucene and Indri performance", in <i>Proceedings of the SIGIR 2012 Workshop on Open Source Information Retrieval</i> vol. 46, no. 2 (, 2012), pp. 64--67.</span></div>
+<div class="bibtexentry"><a id="LyXCite-Indri_Home" />
+<span class="bibtexlabel">Indri_Home Žádný rok</span><span class="bibtexinfo">"Indri Homepage".</span></div>
+<div class="bibtexentry"><a id="LyXCite-Benchmark_Mysql_Lucene_Sphinx" />
+<span class="bibtexlabel">Jayant 2006</span><span class="bibtexinfo">Kumar Jayant, "Benchmarking results of mysql, lucene and sphinx" (2006).</span></div>
+<div class="bibtexentry"><a id="LyXCite-Lucene_Home" />
+<span class="bibtexlabel">Lucene_Home Žádný rok</span><span class="bibtexinfo">"Lucene Homepage".</span></div>
+<div class="bibtexentry"><a id="LyXCite-Lucene_Who_Uses" />
+<span class="bibtexlabel">Lucene_Who_Uses Žádný rok</span><span class="bibtexinfo">"Lucene-java Wiki".</span></div>
+<div class="bibtexentry"><a id="LyXCite-Middleton_Baeza" />
+<span class="bibtexlabel">Middleton a Baeza-Yates 2007</span><span class="bibtexinfo">Christian Middleton and Ricardo Baeza-Yates, "A Comparison of Open Source Search Engines" (2007).</span></div>
+<div class="bibtexentry"><a id="LyXCite-Singh_Search_Engines" />
+<span class="bibtexlabel">Singh 2009</span><span class="bibtexinfo">Vik Singh, "A Comparison of Open Source Search Engines" (2009).</span></div>
+<div class="bibtexentry"><a id="LyXCite-Solr_Home" />
+<span class="bibtexlabel">Solr_Home Žádný rok</span><span class="bibtexinfo">"Solr Homepage".</span></div>
+<div class="bibtexentry"><a id="LyXCite-Sphinx_Home" />
+<span class="bibtexlabel">Sphinx_Home Žádný rok</span><span class="bibtexinfo">"Sphinx Homepage".</span></div>
+<div class="bibtexentry"><a id="LyXCite-Xapian_Home" />
+<span class="bibtexlabel">Xapian_Home Žádný rok</span><span class="bibtexinfo">"Xapian Homepage".</span></div>
+<div class="bibtexentry"><a id="LyXCite-Zettair_Home" />
+<span class="bibtexlabel">Zettair_Home Žádný rok</span><span class="bibtexinfo">"Zettair Homepage".</span></div>
+</div></div>
+</div></div>
+
+<div class="standard"><a id="magicparlabel-340" />
+</div>
+</body>
+</html>
