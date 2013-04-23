@@ -1,0 +1,70 @@
+\chapter{EEG/ERP Portal}
+
+
+\subsection{About EEG/ERP Portal}
+
+The EEG/ERP Portal is a web-based application which serves to neuroinformatics researchers as a means of managing, sharing and evaluating measured data. The application also comprises advanced featured designed specifically for the needs of EEG/ERP researchers, such as tools for manipulation with EEG signals.
+
+\subsubsection*{Hibernate}
+
+
+\subsubsection*{Spring}
+
+\subsubsection*{Wicket}
+... The EEG/ERP Portal's presentation layer is being developed in Wicket by the time of writing this thesis 
+
+
+
+
+\section{Current state of fulltext search}
+
+By using Hibernate Search to implement fulltext search, the application
+is enforced to use Hibernate or JPA for data persistence. Using any other
+techonologies than these two results in a malfunctioning application.
+The main drawback of using Hibernate Search in our case the inability to index
+data from different sources than the database. Since one of the requirements
+is to enable searching data from social networks, the current solution
+can hardly fulfill this requirement. 
+
+Hibernate search provides the annotation interface which serves for
+indexing purposes. A subset of these annotations is used to mark indexed
+entities and fields withing them which should form the document in
+the index. Next, a few field annotations enable to configure how the
+fields are later processed by specifying analyzers to be applied on
+those fields.
+
+We do not have such control over indexed data (?) rozepsat
+
+In the current state the indexed data are stored in memory. This means
+that the index must be created each time the application starts since
+after restarting the application, all indexed data are lost.
+
+Indexed data are kept in an in-memory index, so these data are lost every time the application server stops. This is the reason why data in the database are indexed right after the application starts running.
+
+Hibernate Search uses Lucene as a search engine which handles indexing
+and full text search. The created classes in the EEG/ERP Portal application
+manipulate straightly with the Lucene API which is considered low-level
+for these purposes and results in unexpected behavior of the full
+text search in some cases (e.g. text highlighting of a subset of found
+results).
+
+Full text search engine, apart from its dependency on Hibernate, is
+tightly coupled with the whole application. With the growing amount
+of indexed data, the full text search performance might go down as
+with limited amount of memory there is not much space for scaling.
+
+
+\subsection{Database search}
+
+
+\section{Desired improvements of fulltext search}
+
+
+\subsection{Social Network search}
+
+Since Hibernate Search is used as a technology responsible, aside others, for data indexing, only the data stored in the relational database are and can be indexed. However, articles and other information found in the LinkedIn group of EEG/ERP Portal have no direct connection to the database, so Hibernate Search cannot reach these data and therefore cannot save them to the index it keeps. A possible solution which partially solves this problem would be to keep duplicate records about the articles in the EEG/ERP Portal database. Appart from the problem with keeping three copies of basically the same information (the original article published on LinkedIn, its copy in the database and its representation in the Lucene index), those articles published directly from LinkedIn and not from the EEG/ERP Portal via a form would not be noticed by the application and their corresponding documents in the index would not exist.
+
+
+\section{Current state of integration with social networks}
+
+Currently, EEG/ERP Portal is successfully integrated with its LinkedIn group. A user can use the Portal to publish and see LinkedIn articles straight. To access to LinkedIn, a user must be authorized via the OAuth security protocol.

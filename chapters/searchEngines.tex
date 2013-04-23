@@ -1,0 +1,167 @@
+\chapter{Available Search Engines}
+
+According to the comparisons of fulltext search engines in \cite{MiddletonBaeza}
+and \cite{SinghSearchEngines}, there are several reasonable options
+to choose from. Unfortunately, there is not enough comparative benchmarks
+on performance of search engines. Available comparisons are often
+not so objective since, for example, only the default settings of
+search engines are used in the tests or just one use case is applied
+(as in \cite{SinghSearchEngines}). This may lead to false conclusions
+obtained from these benchmarks because search engines' capabilities
+might not have been fully demonstrated and tested. It is also worth
+mentioning that some comparisons were made a few years ago and are
+likely to be out-dated since these technologies evolve quite quickly.
+All these experiments showed, however, that database fulltext search
+possibilities are way too slow \cite{BenchmarkLuceneRelDB,BenchmarkMysqlLuceneSphinx}.
+
+In the following paragraphs the reader can grasp a basic overview
+on several full text search engines which are considered to be fairly
+performant and usable for common full text search scenarios.
+
+
+\section{Indri}
+
+Indri \cite{IndriHome} is an academic C++ based text search engine
+developed at the University of Massachusetts and is a part of the
+Lemur Project. The engine is interesting because of its implementation
+as it combines inference networks with language modeling. Its API
+is accessible also from other languages such as Java or C\#. Great
+support of scaling and support of true multithreaded operation, enabling
+concurrent adding, querying and deleting documents belong to its main
+features. In the technical paper \cite{ComparisonLuceneIndri}
+it was shown that Indri is very performant and in comparison with
+Lucene it achieves even better results in terms of retrieval effectiveness
+for short queries, index size and performance.
+
+
+\section{Lucene}
+
+Lucene \cite{LuceneHome} is an open source Java-based search
+library. It can enrich applications by its ability to index data and
+search over them. These two main items form what is commonly reffered
+to as Lucene core. Apart from the core, its latest version comprises
+useful features related to full text search problems (e.g. result
+highlighting). Lucene is highly modularized and its API enables a
+user to extend its functionality relatively easily {[}citace{]}. 
+
+It stores its index as files on disk. When the search is made, segments
+of indexes are copied to memory, thus its memory consumption is high
+and mostly fixed. It is important for a Lucene user that index is
+basically a collection of documents 
+
+According to \cite{MiddletonBaeza,ComparisonLuceneIndri}, it
+belongs to the fastest engines and its performance shines especially
+when querying one- or two-word phrases. Its small size of index it
+creates is also a plus when the lack of memory could be an issue.
+Thanks to its portability and its active development and active and
+numerous community, it has become the leading open source search engine
+used in many successful projects \cite{LuceneWhoUses}.
+
+The current version of Lucene, Lucene 4.0, ,,represents a significant
+milestone in the development of Lucene due to a number of new features
+and efficiency improvements as compared to previous versions of Lucene.``
+\cite{ApacheLucene4}
+
+
+\section{Sphinx}
+
+Sphinx \cite{SphinxHome} is an open source search server distributed
+under GPL license. 
+It consists of an indexing tool, which is also reffered to as indexer, and a searching daemon. 
+Sphinx is written in C++ and is especially designed for indexing database systems (it integrates well with MySQL).
+The reason behind its connection with MySQL DBMS is to enable the scenario when searching data in the database  storing which store too much data to be 
+It allows a user to issue queries with SQL-like syntax for indexing the database content and searching in the index.
+Besides database indexing, it also supports an XML format for arbitrary data. 
+Considering results from all found benchmarks involving Sphinx \cite{IndriHome,MiddletonBaeza,BenchmarkLuceneSphinxNewer,BenchmarkMysqlLuceneSphinx}, its indexing speed is quick and its search speed belongs to the fastest ones. 
+It offers API bindings for several platforms/languages, including
+Java. 
+Among its strengths we can name quick installation and deployment
+and a perfect online documentation for an open source project. 
+Extensibility is quite an issue if our application requires additional features
+{[}citace{]}. 
+It its well-suited for fulltext database searches on
+a huge amount of documents.
+
+
+\section{Xapian}
+
+According to information found on its official website \cite{XapianHome},
+it is an Open Source Search Library written in C++. 
+It provides a user with bindings that allow to use it from a couple of other languages,
+including Java, C\# or Ruby. 
+Its index size is generally larger when compared to other search engines, but this extra piece of information contained in the index allows Xapian to delete or update a document in a more correct way. 
+It is done by storing a list of elements in each document in the termlist table\cite{XapianIndexSize}. 
+Its performance is said to be equally good as the one of Lucene {[}citace{]}.
+
+
+\section{Zettair}
+
+Another search engine that received a very positive rating in \cite{MiddletonBaeza} is Zettair \cite{ZettairHome}. 
+The comparison in this paper concludes that Zettair has the fastest indexer, provides fast querying speeds and has also the best precision/recall ratio in average. 
+Zettair is being developed at the Australian university and is written entirely
+in C. 
+One of its main features is the ability to handle large data
+sets (100GB and more) due to its scalability to large collections \cite{ZettairHome}.
+
+Among its disadvantages belong its inability to index nothing else than text and html and the fact that the index cannot be built in
+parallel using multiple machines. 
+There are currently no ports to other languages available, so the full text search, when using Zettair, must be implemented in C.
+
+
+\section{Nadstavby}
+
+
+The purpose of search engines is to provide the core functionality needed build a working full text search solution.
+However, to create the rest of full-text search functionality.
+
+
+\subsection{Lucene-based search engines}
+
+Since the latter part of the thesis will be focused on Lucene, it
+is also necessary to introduce technologies that use Lucene as its
+basis. These technologies provide a higher-level apporach to full
+text search over data when compared to manipulating input data and
+Lucene index by just using pure Lucene API.
+
+
+\subsubsection{Hibernate Search}
+
+Hibernate Search \cite{HibernateSearchHome} forms a bridge between
+Hibernate and Lucene. The aim of Hibernate Search is to enable fulltext
+search over persistent domain model by overcoming certain mismatches
+between the domain model and simple Lucene document. In order to make
+it work, Hibernate or JPA must be used as an object-relational mapping
+between Java objects and database tables. It leverages the power of
+Lucene for indexing and searching and of Solr (more about Solr can
+be found in section 3.6.2), whose of useful features and analyzers
+can be used. It works with persisted Hibernate entities which are
+then made searchable in Lucene index. In order to achieve that, created
+model classes are added specific annotations for fulltext search purposes.
+Apart from annotating the entities that should be indexed, no extra
+configuration is needed. By default, Hibernate Search automatically
+updates Lucene index after an object is saved or updated through Hibernate.
+
+
+\subsubsection{Solr}
+
+Solr \cite{SolrHome} is an open source search server built on top
+of Lucene which runs within a servlet container such as Jetty or Tomcat.
+As in case of Hibernate Search, Lucene is used for the core functionality
+
+indexing and searching. Solr extends Lucene by providing
+many useful features related to full text search, e.g. hit highlighting,
+faceted search, rich document handling or the did you
+meanfeature, just to name a few. Since Solr runs
+as a separate process, it communicates with applications via HTTP
+requests, which represent query data, and HTTP responses, representing
+search results found in the index, by exposing its REST-like API.
+This technology is configuration-driven and in some cases everything
+can be set up with no need of writing a single line of Java code. 
+
+SolrJ client is a recommended way of how to integrate an existing
+Java application with the Solr server.
+
+
+\subsubsection{ElasticSearch}
+
+It is another promising young technology build on Lucene, designed from its early beginnings as a highly scalable solution suitable for big data.

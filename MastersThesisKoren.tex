@@ -1,0 +1,602 @@
+\documentclass[12pt, oneside, a4paper]{book}
+
+\renewcommand{\baselinestretch}{1.25}
+\setlength{\parskip}{5pt}
+\setlength{\parindent}{0pt}
+
+\input{_includes}
+
+%\usepackage{pgf-blur}
+
+% chapters style
+\definecolor{gray75}{gray}{0.75}
+\newcommand{\hsp}{\hspace{20pt}}
+\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
+\titlespacing{\chapter}{0pt}{0pt}{1cm}
+
+\begin{document}
+\inputencoding{utf8}
+
+% *************** Front matter ***************
+\frontmatter
+
+\begin{titlepage}
+
+\setlength{\textwidth}{15cm}
+\addtolength{\hoffset}{-1.7cm}
+\addtolength{\voffset}{-1.8cm}
+
+\vbox to 150mm{
+
+{\fontfamily{phv}\selectfont
+
+\makebox[\textwidth][c]{University of West Bohemia}
+
+\vspace{0.5cm}
+
+\makebox[\textwidth][c]{Faculty of Applied Sciences}
+
+\vspace{0.5cm}
+
+\makebox[\textwidth][c]{Department of Computer Science and Engineering}
+
+\vspace{6cm}
+
+\makebox[\textwidth][c]{\LARGE{\textbf{DIPLOMA THESIS}}}
+
+\vspace{13.3cm}
+
+\makebox[\textwidth][c]{Pilsen, 2013 \hspace{6.5cm} Jan Koreň}
+
+
+
+\vss
+}
+
+
+}
+
+\end{titlepage}
+
+\begin{titlepage}
+
+\font\uni=cmr17 at 22pt
+\font\dip = cmb10 at 28pt
+\font\nam = cmr17 at 16pt
+
+\addtolength{\voffset}{-1.8cm}
+
+\vbox to 150mm{
+
+
+
+\makebox[\textwidth][c]{\uni University of West Bohemia}
+
+\vspace{0.5cm}
+
+\makebox[\textwidth][c]{\uni Faculty of Applied Sciences}
+
+\vspace{0.5cm}
+
+\makebox[\textwidth][c]{\uni Department of Computer Science and Engineering}
+
+\vspace{3.5cm}
+
+\makebox[\textwidth][c]{\dip Diploma Thesis}
+
+\vspace{2.5cm}
+
+\makebox[\textwidth][c]{\dip Fulltext search in the database }
+\makebox[\textwidth][c]{\dip and in texts of social networks}
+
+\vspace{12.5cm}
+
+\makebox[\textwidth][c]{\nam Pilsen, 2013 \hspace{6.5cm} Jan Koreň}
+
+
+
+\vss
+
+
+
+}
+
+\end{titlepage}
+
+\thispagestyle{empty}
+
+
+\section*{Declaration}
+
+I hereby declare that this diploma thesis is completely my own work
+and that I used only the cited sources. 
+
+
+\date{Pilsen, Jan Koreň}
+
+\pagebreak{}
+
+
+\thispagestyle{empty}
+
+\chapter*{Acknowledgements}
+
+I would like to thank to...
+
+\pagebreak{}
+
+
+\thispagestyle{empty}
+
+
+\chapter*{Abstract}
+
+
+This thesis is focused on design and implementation of the full text
+search in EEG/ERP Portal. This full text search capability includes
+searching text in the EEG/ERP Portal database as well as in related
+data from social networks, such as LinkedIn or Facebook. With the
+development of the Portal and the increasing amount of processed data,
+a proper full text search mechanism for information retrieval is necessary
+for improving the user experience by enabling efficient do\-cu\-ment retrieval. 
+
+\pagebreak{}
+
+%\vspace{5mm}\\
+{\bf Keywords}:
+Lucene, Solr, full text search
+
+\thispagestyle{empty}
+
+\vfill\eject
+
+\tableofcontents
+
+% *************** Main matter ***************
+\mainmatter
+
+\input{chapters/introduction}
+
+
+
+\part{Theoretical Part}
+
+Information and efficient access to it form an essential part of life in a modern society. 
+Computing and related technologies have changed the ways textual information is stored, searched and retreived. 
+The amount of information has grown rapidly in the last few years due to the information explosion caused mainly by the World Wide Web. 
+The result is that nowadays, people are exposed to much more information than they used to be. 
+Simple categorization of documents made by humans, although doable, is no longer an efficent method of storing data to be searched. 
+Except for the fact that this activity is very time-consuming, it can also be automated. 
+In order to manage such amount of data and obtain relevant information within a reasonable time period, new powerful techniques operating on vast collections of data were needed.
+
+The problematics of searching relevant information in large data sets has been an objective of a detailed research for more than sixty years. 
+The aim of the following parts is to introduce some fundamental concepts
+of information retrieval, a discipline including the full text search,
+in the context of full text search and compare these concepts with similar principles used in the relational and
+NoSQL database worlds.
+
+The latter chapter describes available open-source full-text engines.
+
+
+
+\input{chapters/fulltextSearch}
+
+\input{chapters/searchEngines}
+
+\input{chapters/eegPortal}
+
+
+
+
+\part{Practical Part}
+
+
+\chapter{Analysis}
+
+
+\section{Choice of full text search solution}
+
+From the search engines listed in previous parts of the thesis and technologies on which EEG/ERP Portal is based, the choice of the search engine can be restricted by the following criteria:
+
+Speed - Based on the comparison made in chapter 3, the most performant search engines are ... and Lucene and all those built on Lucene
+
+integration with EEG/ERP Portal - EEG/ERP Portal is based on Java technologies and this is why search engines providing Java API are easier to be integrated to the working infrastructure.
+
+Other features and extensions - Because full text search
+engines as they are take care of indexing and searching data, it is desirable to have a set of ``helper tools'' (such as result highlighting, faceted search, synonym search and more-like-this search) to make building full text search easier. It is considered natural for the end user to use the fulltext search with some of such tools implemented. 
+
+Independence on data sources - The chosen search engine must be able to accept data from various sources and not be limited to only one specific data source, such as relational database. The reason behind this is the mentioned need to index LinkedIn articles as well as to enable possible furter indexing scenarios in the future, such as indexing .pdf or XML files.
+
+Independence on other technologies - This criterion means that the search engine should not rely on a specific technology to be used. Dependence of Hibernate Search on Hibernate or ... on MySQL may serve as examples of the search engines which perform well is the conditions are met, but cannot work if not. 
+
+Community - Numerous and active developer community also plays a big role in the final choice. The bigger community around the search engine is, the higher is the chance that the engine development will not stop early, new features will be introduced and that found bugs will be resolved quickly. Although one-man projects can look very promising and their future development is more likely to be managed by still growing community, 
+A well documented project, many available tutorials and active user groups are a good sign of project stability and ensure that there will be someone ready to help to solve problems.
+
+TODO MODIFY the table.
+
+\begin{tabular}{|c|c c c c c|}
+\hline
+
+\textbf{Search Engine } & \textbf{Speed} & \textbf{Integration} & \textbf{Extension} & \textbf{Independence} & \textbf{Community} \\
+\hline
+Indri & Excellent & OK & KO & OK & 1 \\
+\hline
+Sphinx & Excellent & OK & KO & OK & 3 \\
+\hline
+Lucene & Excellent & OK & OK & OK & 5 \\
+\hline
+Zettair & Excellent & KO & KO & OK & 1 \\
+\hline
+Xapian & Good & OK & OK & OK & 1 \\ 
+
+\hline
+\end{tabular}
+	
+\section{How Lucene works}
+
+
+\section{Instalation}
+
+Distributed as a .war archive
+
+HttpSolrServer and EmbeddedSolrServer
+
+
+%\section{Solr and NoSQL}
+
+
+\section{Solr Index}
+
+Todo
+
+
+\section{Ways of Indexing in Solr}
+
+Todo
+
+DataImportHandler vs. SolrJ
+
+DataImportHandler (DIH) offers fast indexing of data from relational databases. The extraction of data to be added to the index as documents is based on creating custom SQL results. 
+The drawback of DIH is its inflexibility. After each change of the relational schema the SQL queries which fetch the indexing data must be changed accordingly. Also the logic in the form of the SQL queries is out of reach of the EEG/ERP Portal application logic since the queries must be written in a special configuration file managed by the Solr server.
+
+Disadvantages:
+
+\begin{itemize}
+
+\item Data model changes - For indexing of new data and enabling delta imports, it is necessary to add a new column to each table we wish to index. The column contains a timestamp for each record, holding the value of time of the last indexing.
+
+\item After deletion of data in the database, certain actions must be taken to enable DIH to reflect these changes in the index. 
+One way to do this is to browse the documents in the index and compare their ids with ids of their matching database records. If a document has no equvalent database record, it means that the record was deleted. After the comparison, redundant documents in the index are identified. This approax does not perform well.
+Another way is to add an extra column that captures deletion times. Deletion times together with the record identification are added before the physical deletion of records. DIH can then get all records from the last executed crawl. An appropriate function and before delete trigger must be created for this solution. 
+
+\item if the database schema changes - affected SQL queries must be rewritten to make them work again. SOLR schema changes is related to this matter as well. 
+
+\end{itemize}
+
+SolrJ - possibilities:
+\begin{itemize}
+\item @Field annotation SolrJ API in combination with addBean()/addBeans() methods.
+The usage of provided annotations brings a problem of ambiguity of mapped objects. Documents stored in the Solr index must posess an identifier which is unique across all stored documents. Object ids are unique only in the class scope, so global uniqueness is not ensured. (pouziti Solr UUID nebylo
+prostreleno). It is true that this way of making input documents is clear and easy. Unfortunatelly, its usage for more advanced scenarios is limited. This limitation lies in the unability to use the @Field annotation for fields which are Java objects and collections. Annotating just primitive or String value fields does not offer 
+
+\item aspects - they are suitable for injecting cross-cutting concerns such as logging and database transactions to avoid spreading the same lines of code across the whole application. 
+In our case, the existing need for indexing domain objects can be realized by simply enriching the base DAO methods responsible for creating, updating and deleting an object. This way the indexing calls happen only in a few known places in code. Introducing an extra aspect for this situation is more likely to be overkill, not to mention added complexity in debugging.
+
+\item Integration with Hibernate Search and using its annotation mechanisms
+The core idea of this proposed alternative is to use Hibernate Search for the initial phase of indexing, which includes creating input documents for indexing which happens automatically. The created documents would be handed over to Solr.
+But - there would be an extra dependency on another technology. Besides, to cover indexing of data not present in the database another indexing mechanisms for these kinds of data would have to be created anyway. 
+
+\item Custom annotation mechanism. By using the possibilities offered by Java Reflection, one cannot be limited by offered solutions and create a new one that overcomes found problems. There are some challenges, but it gives more freedom than previously proposed solutions. It would be desirable to create a solution universal for all domain objects. Inspired by the provided SolrJ annotations. It also involves creating a custom code to implement generating a unique id for each created document.  Bylo by vyuzito reflexe a zajistena
+
+\item filter - web.xml
+\end{itemize}
+
+\section{Integration}
+
+Todo
+
+
+\section{SolrJ}
+
+Solr provides a Java API for integration of Java applications with the Solr server called SolrJ API.
+
+
+\chapter{Index design}
+
+Je dulezite si pri navrhu indexu uvedomit, ze dokumenty
+ulozene v indexu zachycuji informace, ktere jsou vyhledavany. Je proto
+nutne znat poradne povahu a ucel fulltexoveho vyhledavani
+v dane domene. Tento fakt je pro indexaci dokumentu zvlast
+dulezity, protoze dokumenty ukladane v indexu maji jista specifika
+a omezeni, ktere jsou rozebrany v nasledujicich odstavcich.
+
+
+\section{Search Requirements}
+
+The current version of EEG/ERP Portal uses Hibernate Search to implement
+the fulltext search feature. This framework is sufficient for dealing
+with input data coming only from a database data source. This is because
+of the fact that the technology is based on Hibernate, a powerful
+object-relational mapping framework. Hibernate Search uses internally
+Lucene and Solr analyzers to provide the full text search itself.
+However, the current implementation suffers from several issues which
+are desired to be fixed. The highlighting functionality does not work
+as expected in certain cases. 
+
+
+\section{Index Structure Specifics}
+
+Compared to traditional relational databases, the Solr index lacks
+the possibility to create more structured content. An analogy to the
+index would be a single large table in the relational world. As a
+relational table, index structure is flat and does not allow nesting
+documents to form hierarchical structures as in the case of document
+databases like MongoDB.
+
+...Index ma plochou strukturu, neumoznuuje vnorovat dokumenty
+do sebe, jako v pripade dokumentovych databazi. lze vsak imitovat
+relaci 1:N pomoci multivalued fields, ktere jsou ulozeny ve forme
+pole.
+
+Reprezentaci dokumentu lze vyresit nekolika zpusoby:
+\begin{itemize}
+\item Denormalizace relacnich dat
+\item Od Solr 4 podpora join funkce. Dost omezene oproti SQL joinu
+\item nekolik po sobe nasledujicich dotazu, nasledujici dotaz
+bere jako vstup vysledky predchoziho dotazu.
+\end{itemize}
+
+\subsection{Eventual consistency}
+
+za pouziti real-time indexovani. po insertu, updatu, deletu dochazi
+k indexaci prislusneho dokumentu.
+
+Sekvence insert/update/delete a indexace neprobiha atomicky jako transakce.
+Pri chybe muze dojit k nekonzistentnimu stavu (data ulozena,
+indexovana -> OK; data ulozena, ale neindexovana -> nebudou vyhledatelna;
+data neulozena, indexovana -> nalezeny neodpovidajici nebo neexistujici
+vysledky; data neulozena, neindexovana -> DB rollback, puvodni
+zaznam lze vyhledat . Osetreni konzistence v techto pripadech
+byva netrivialni zalezitost, casto realne resitelna jen
+castecne. Beznym resenim nekonzistentnich stavu
+je je ignorovat, protoze nakonec budou po dalsi naplnnovani reindexaci
+odstraneny. Tim je dosazeno. tzv. eventual consistency.
+
+
+\chapter{Fulltext Search Design}
+
+Previous parts of the thesis shown that documents in index and records
+stored in relational database tables serve to different purposes and
+use cases und therefore must be treated differently. The treatment
+in this context means storing, structuring and saving the data.
+
+Being aware of the index structure and its specifics, it is almost
+always necessary to make a kind of transformation from the relational
+to the index form in order to make the full text search work properly
+and efficiently. There are several ways to accomplish this goal, one
+of them involves flattening the relational structure. This leads to
+denormalized data which is mostly unacceptable in relational databases,
+but since index is quite different from databases, denormalization
+is even desired. The main thing one should know when desiging an index
+structure is to know which search results a user expects and how the
+final representation of full text results should look like.
+
+Pokud bychom zvolili pristup of direct 1:1 mapping of entities to the indexu,
+dostaneme pro kazdou entitu odpovidajici typ dokumentu, ktery obsahuje
+zvolene indexovane polozky pro danou entitu. 
+
+
+\chapter{Implementation}
+
+
+\section{Java Reflection}
+
+Reflection is the ability to inspect the code and make its modifications at runtime. It is a feature that makes languages like Java more dynamic. Its heavy usage can be found especially in modern frameworks such as Spring or Hibernate, that both use reflection for instatiating classes from information in configuration files. 
+
+A very common use case of reflection in Java is the usage with annotations. This combination opens many possibilities of manipulating class metadata. In JUnit 4, for example, the @Test annotation was introduced. The JUnit framework looks up all methods marked by this marker annotation and call them in each execution of running unit tests.
+
+The root class of the Java object hierarchy, the Object class, has the method getClass() providing the corresponding Class object, meaning that all Java classes can be invoked or inspected by means of reflection.
+
+%Co to je, na co se pouziva, jak se pouziva v implementaci
+%
+%The name reflection is used to describe code which is able to inspect other code in the same system (or itself).
+%
+%One very common use case in Java is the usage with annotations. JUnit 4, for example, will use reflection to look through your classes for methods tagged with the @Test annotation, and will then call them when running the unit test.
+%
+ %The ability to inspect the code in the system and see object types is Type Introspection. Reflection is then the ability to make modifications at runtime by making use of introspection.
+%
+ %For example, all objects in Java has the method getClass, which lets you determine its class even if you don't know it at compile time (like if you declared it as Object) - this might seem trivial, but such reflection is not by default possible in less dynamic languages such as C++.
+%
+%Take for example your typical web.xml file. This will contain a list of servlet elements, which contain nested servlet-class elements. The servlet container will process the web.xml file, and create new a new instance of each servlet class through reflection.
+%
+%Reflection is important since it lets you write programs that does not have to "know" everything at compile time, making them more dynamic, since they can be tied together at runtime. The code can be written against known interfaces, but the actual classes to be used can be instantiated using reflection from configuration files.
+%
+%Lots of modern frameworks uses reflection extensively for this very reason. the most comprehensive example is Spring which uses reflection to create its beans, and for its heavy use of proxies
+%
+%It's useful in a lot of situations. Everywhere you want to be able to dynamically plug in classes into your code. Lot's of object relational mappers use reflection to be able to instantiate objects from databases without knowing in advance what objects they're going to use. Plug-in architectures is another place where reflection is useful. Being able to dynamically load code and determine if there are types there that implement the right interface to use as a plugin is important in those situations.
+
+\section{REST}
+
+REpresentational State Transfer
+co to je
+
+
+\section{LinkedIn API}
+
+LinkedIn provides REST API to access to various information. Required information one wishes to obtain can be specified by URI parameters in the JSON format. 
+co vratit, jestli posts, users, groups
+etc. a jak detailne (jestli napr. u posts vratit i popis,
+timestamp, id,...). Spring poskytuje metody, ktere obaluji REST volani,
+nekdy ale neposkytuji, co je zrovna potreba (treba nevraci
+timestamp a summary u articles). Lze ovsem vytvorit
+vlastni REST volani a nechat si vratit data, ktera zrovna potrebujeme.
+
+Indexers
+
+An annotation interface was created to cover indexing data. 
+Pro efektivni
+searching bylo potreba indexovat dokumenty, ktere represent
+denormalizoed data. Bylo nutne rozlisit rodicovske objekty a
+podrazene objekty, ktere rodicovske objekty obsahuji jako
+property nebo ve svych kolekcich. Prikladem muze byt rodicovsky
+objekt experiment, ktery obsahuje kolekci podrazenych hardware
+objektu.
+
+
+\section{Hibernate lazy vs. eager loading}
+
+explain pojem dynamic proxy pattern, ktery Hibernate pro eager
+loading pouziva.
+
+A program may consist of several domain objects which contain a reference
+to another domain object or to a collection of objects. Most of the
+time when accessing a certain domain object it is enough to get only
+the fields of primitive types and associated collections are not needed.
+This prevents Hibernate from performing additional unnecessary queries.
+
+U lazy loadingu jde o usporu nepotrebnych dotazu, tim padem
+mensi rezii a tim urychleni behu aplikace. Lazy loading je proto
+uprednostnovan a pro kolekce, tedy vazby 1:N, je v Hibernate
+nastaven jako default. Pokud vsak potrebujeme pristoupit
+k objektum v kolekci lazily loaded objektu, dostaneme LazyInitializationException,
+protoze objekty nebyly do kolekce nacteny.
+
+Naproti tomu eager loading pri prvnim pristupu k objektu vytvori
+instance pro vsechny objekty, na ktere ma ziskany objekt vazbu. Tento
+approach je pametove narocnejsi, zpomaluje
+beh aplikace a mel by se pouzit jen v pripadech, kdy jsme
+si jisti, ze budeme potrebovat informace o associated objects.
+
+V aplikaci portalu je z techto rozumnych reasons snaha pouzit lazy
+loading, kde to jen jde. V common situations neni eager loading
+zapotrebi, a proto... 
+
+Pro indexaci dat je zapotrebi fetch data z databaze vcetne
+vsech objektu, ktere k nim belong, aby se do indexu zachytily
+informace i z techto podrazenych objektu.
+
+Ensuring eager loading
+
+- zmenou konfigurace Hibernate mapping. Neni pro nas suitable pristup,
+protoze je malo flexible. Znamenalo by to, ze by se k vsem objects
+nacitaly vsechny objekty s 1:N relaci. Dotazy by trvaly delsi
+dobu, bylo by treba vice pameti, takze melo by to za nasledek
+pomalejsi beh apliakce.
+
+- custom HQL dotazy s fetchmode=``eager``. Je nutne psat zvlast
+pro kazdou entitu dotaz, ve kterem uvedeme, ktere objekty chceme eager
+fetchnout
+
+- vyuziti metody Hibernate.initialize(), ktere se jako parametr preda
+objekt, ktery ma byt k parent objektu pripojen. V kombinaci
+s Java reflexi lze docilit univerzalniho solution pro vsechny objekty
+
+
+\section{Indexing algorithm}
+
+
+\section{Solr configuration}
+
+\subsection{Handling synonyms}
+
+
+\section{Periodic indexing}
+
+Since LinkedIn articles can be added directly via LinkedIn from a user account and not via the form on the EEG/ERP Portal website, the portal application pri adding
+articles takovymto zpusobem se o novych acticles nemuze
+dozvedet. Proto u LinkedIn articles je potreba krome
+indexovani i clanku pridanych z portalu zajistit i indexaci
+clanku pridanych vne portal. Resenim je provadet
+pravidelnou indexaci vsech clanku na LinkedInu. Objektova
+reprezentace articles lze obdrzet pres LinkedIn API a ty
+potom v pozadovane podobe predat indexeru. Zajisti se tim
+pritomnost vsech publikovanych articles na LinkedInu v indexu.
+Nevyhodou je fakt, ze nektere clanky budou indexovany se zpozdenim
+danem v nejhorsim pripade periodou jejich indexovani. 
+
+The Spring Framework has a native support of task scheduling and asynchronous
+calls. Since its version 3.0, methods can be scheduled and also run
+asynchronously by using annotations, namely the @Scheduled and @Async
+annotations. The first mentioned annotation, when added to a method,
+makes the method schedulable by Spring. Usage of this annotation is
+restricted to the void methods with no parameters. The @Scheduled
+annotation has to contain a piece of metadata to tell Spring how to
+plan the method scheduling. Currently there are three available attributes
+for the @Scheduled annotation, from which the most flexible option
+is specifying a cron expression to trigger a task as shown on the
+following lines:
+
+\begin{verbatim}
+@Scheduled(cron=* 0 22 * * SAT-SUN)
+public void indexAll()
+\end{verbatim}
+
+
+This way, the method indexAll() will be scheduled to run every at
+10 pm only on Saturday and Sunday. Cron syntax allows a user to create
+more sophisticated scheduling scenarios, but discussing the syntax
+is out of scope of this work. Since Spring is using Quartz as a scheduler
+under the covers, an interested reader can find all necessary information
+about the syntax in the Quartz documentation \cite{QuartzDoc}.
+
+
+The @Async annotation is used to mark the methods to be invoked asynchronously.
+It is very easy to use for methods having void return values:
+
+\begin{verbatim}
+@Async
+public void indexLinkedIn()
+\end{verbatim}
+
+
+In order to enable annotation-based scheduling it is necessary to
+add a new element in the application context file as well as the task
+namespace to which the element belongs.
+
+\begin{verbatim}
+<xmlns:task="... http://www.springframework.org/schema/task" 
+xsi:schemaLocation="... http://www.springframework.org/schema/task/spring-task.xsd">
+...
+<task:annotation-driven executor="indexingExecutor" scheduler="indexingScheduler"/>
+\end{verbatim}
+
+
+The annotation-driven element requires executer and scheduler attributes
+to be set to handle tasks represented by methods marked by @Async
+and @Scheduled annotations, respectively.
+
+\begin{verbatim}
+<task:executor id="indexingExecutor" pool-size="5"/> 
+<task:scheduler id="indexingScheduler" pool-size="1"/>
+\end{verbatim}
+
+
+
+
+,,Notice that an executor reference is provided for handling those
+tasks that correspond to methods with the @Async annotation, and the
+scheduler reference is provided for managing those methods annotated
+with @Scheduled.``
+
+
+\section{User Interface}
+
+\subsection{Search Form}
+
+\subsubsection{Autocomplete}
+
+\subsection{Search Results}
+
+\input{chapters/testing}
+
+\chapter{Conclusion}
+
+% *************** Bibliography ***************
+\bibliographystyle{ieeetr}
+\bibliography{bibliography}
+
+%\printbibliography
+%\begin{thebibliography}{}
+%\end{thebibliography}
+
+\end{document}

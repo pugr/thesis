@@ -1,0 +1,20 @@
+\chapter{Testing}
+
+This chapter presents created test cases to prove the correct functionality of the implementation of the full text search for EEG/ERP Portal. The tests are of two types. The first type of the tests are JUnit tests which cover the functionality on the core, applicaion logic level. The second test category includes Selenium tests whose purpose is to simulate user interaction with the search.
+
+All tests interact with an independently running Solr test server to access indexed data. The server runs at .... on port 8686.
+
+Jako reseni se pro testovani nabizela
+take tzv. embedded verze Solr serveru (trida EmbeddedSolrServer).
+Protoze je server spojen s aplikaci, HTTP pristup je v tomto pripade
+jen simulovan, navic neumoznuje takove moznosti spravy a nastaveni
+jako samostatne bezici server. Proto byla dana prednost
+samostatne instanci Solru, ktera verohodneji imituje provoz
+na ostrem Solr serveru.
+
+
+\section{Unit Tests}
+
+
+\section{UI Tests (Selenium)}
+
