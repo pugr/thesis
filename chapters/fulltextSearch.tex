@@ -68,7 +68,7 @@ Index is defined by Frakes \cite{IRDataAlgorithms} the following way:
 	\begin{quote}
 	\textsl{``A collection of terms with pointers to places where information about them can be found.''} 	
 	\end{quote}
-Based on information found in \cite{ManningRaghavanSchuetze08, IRDataAlgorithms, Witten:1999:MGC:323905}, there are three main indexing methods – inverted file, signature file and bitmaps. Based on the comparisons made \cite{Witten:1999:MGC:323905} and in \cite{Zobel:1996:GPC:234889.234891}, using inverted files should be the prefered way due to their faster speed and lower index size required. The remaining two alternatives are recommended to be used only in certain circumstances which are very rare in practice. 
+Based on information found in \cite{ManningRaghavanSchuetze08, IRDataAlgorithms, Witten:1999:MGC:323905}, there are three main indexing methods – inverted file, signature file and bitmaps. Based on the comparisons made in \cite{Witten:1999:MGC:323905} and in \cite{Zobel:1996:GPC:234889.234891}, using inverted files should be the preferred way due to their search efficiency and lower index size they require. The remaining two alternatives are recommended to be used only in certain circumstances which are very rare in practice. 
 
 \subsubsection*{Inverted File}
 
@@ -158,8 +158,11 @@ This data structure can be thought of as the well-known index at the end of a bo
 %
 
 \section{Full text vs. DB search}
+\label{sec:fullVsDb}
 
-Relational database systems and their properties ACID - widely used
+Relational Databases (RDBMS) are the most popular type of available databases. 
+
+Relational database systems and their properties ACID. Atomicity, Consistency, Isolation, Durability to ensure correct transaction flow. - widely used
 for structured data, they are a perfect fit for storing structured
 data. As long as these conditions are met relational databases are
 a recommended solution for our domain.
@@ -175,22 +178,23 @@ the query gets more complex, it takes more time to get query results.
 Furthermore, the query execution slows down due to the fact that the
 query needs to match each term individually.
 
-The query result does not contain any information on the relevancy
-of searched terms and found results. Relational database systems simply
-output the records matching the criteria.
+Zdroj: \cite{Solr3EnterpriseSS}
 
-On the contrary, IR systems provide us with additional relevancy information
-of searched terms. Document relevancy is one of the key features of
-full text search engines because it is desired to display the results
-sorted by their relevance (mostly those most relevant ones are displayed
-first).
+Full text search engines are based on the document structure which is analogous to a single table. Compared to RDBMS, there is in most cases no JOIN or any similar operation. The overall structure of documents is flat due reaching stored data as fast as possible.
 
-It is worth mentioning that some DBMS posess native full-text support.
+The query result does not contain any information on the relevancy of searched terms and found results. 
+Relational database systems simply output the records matching the criteria.
+
+On the contrary, IR systems provide us with additional relevancy information of searched terms. 
+Document relevancy is one of the key features of full text search engines because it is desired to display the results sorted by their relevance (mostly those most relevant ones are displayed first).
+
+It is worth mentioning that some DBMS possess native full-text support.
 MySQL - keyword FULLTEXT INDEX, for searching on a field, on which full text search will be performed. 
-These fulltext indexes are supported only by 
-MyISAM engine. They are generally faster than LIKE, however, their usage is limited - vendor lock-in,
-moreover, this solution is not unified (implementace,syntaxe se mouhou
-can differ, decision to switch to another database could mean interactions to the current system to preserve functionality and scalability. It is bound solely to DBMS - they also lack bigger scaling possibilities and have problems in this area. And it is still slower than external search engines.
+These full text indexes are supported only by MyISAM engine \cite{MyISAM}. 
+They are generally faster than LIKE, however, their usage is limited - vendor lock-in,
+moreover, this solution is not unified (various implementations and syntaxes can differ, decision to switch to another database could mean interactions to the current system to preserve functionality and scalability. 
+It is bound solely to DBMS - they also lack bigger scaling possibilities and have problems in this area. 
+And it is still slower than external search engines.
 
 {[}IRDSandA,Frakes, p.14{]}:
 
@@ -198,9 +202,9 @@ difference - amount of usable structure in their data objects. Document
 generally have less usable structure than the table used by relational
 DBMS.
 
-IR - retrieval is probabilistic. No certainity that a retreived document
-will meet the informaiton need of the user. (typically, some relevant
-documents will be missed, whereas some nonrelevant documents wil be
+IR - retrieval is probabilistic. 
+No certainity that a retreived document will meet the informaiton need of the user. 
+(typically, some relevant documents will be missed, whereas some nonrelevant documents wil be
 retreived) vs. DB queries consist of attribute-value pairs that either
 match or do not match records in the database.
 
@@ -217,18 +221,18 @@ search should be favored to querying relational databases.
 \begin{itemize}
 \item faster than traditional database search - benefits from word index,
 ktery se prochazi pri hledani (jsou pouzity to look up records),
-vs. DB - provadi se full table scan
+vs. DB - provadi se full table scan - see the section \ref{sec:fullVsDb}
 \item found records can be sorted by their relevance. This is called ranking.
 \item good performance also over a DB with millions of records
 \item ability to skip common words with no additional information. This
 depends on the domain languages (in case of English these words include
 e.g. the, an, for), search precision can decrease in some cases. 
 \end{itemize}
-Fulltext pouzijeme, pokud:
+It is advised to use full text search if:
 \begin{itemize}
-\item if there is a lot of unstructured data that are to be looked up
-\item it is necessary to get optimized search results.
-\item demand for flexible querying
+	\item there is a lot of unstructured data that are to be looked up
+	\item it is necessary to get optimized search results.
+	\item flexible querying is demanded.
 \end{itemize}
 
 \section{Search Engines}

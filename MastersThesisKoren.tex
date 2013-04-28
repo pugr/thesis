@@ -8,6 +8,10 @@
 
 %\usepackage{pgf-blur}
 
+% tick
+\newcommand{\tick}{\ding{52}}
+\newcommand{\fail}{\ding{55}}
+
 % chapters style
 \definecolor{gray75}{gray}{0.75}
 \newcommand{\hsp}{\hspace{20pt}}
@@ -155,6 +159,8 @@ Lucene, Solr, full text search
 % *************** Main matter ***************
 \mainmatter
 
+\pagestyle{plain}
+
 \input{chapters/introduction}
 
 
@@ -162,17 +168,15 @@ Lucene, Solr, full text search
 \part{Theoretical Part}
 
 Information and efficient access to it form an essential part of life in a modern society. 
-Computing and related technologies have changed the ways textual information is stored, searched and retreived. 
+Computing and related technologies have changed the ways textual information is stored, searched and retrieved. 
 The amount of information has grown rapidly in the last few years due to the information explosion caused mainly by the World Wide Web. 
 The result is that nowadays, people are exposed to much more information than they used to be. 
-Simple categorization of documents made by humans, although doable, is no longer an efficent method of storing data to be searched. 
+Simple categorization of documents made by humans, although doable, is no longer an efficient method of storing data to be searched. 
 Except for the fact that this activity is very time-consuming, it can also be automated. 
 In order to manage such amount of data and obtain relevant information within a reasonable time period, new powerful techniques operating on vast collections of data were needed.
 
 The problematics of searching relevant information in large data sets has been an objective of a detailed research for more than sixty years. 
-The aim of the following parts is to introduce some fundamental concepts
-of information retrieval, a discipline including the full text search,
-in the context of full text search and compare these concepts with similar principles used in the relational and
+The aim of the following parts is to introduce some fundamental concepts of information retrieval, a discipline including the full text search, in the context of full text search and compare these concepts with similar principles used in the relational and
 NoSQL database worlds.
 
 The latter chapter describes available open-source full-text engines.
@@ -193,51 +197,112 @@ The latter chapter describes available open-source full-text engines.
 
 \chapter{Analysis}
 
+\section{Current State of Full Text Search}
+
+By using Hibernate Search to implement full text search, the application
+is enforced to use Hibernate or JPA for data persistence. Using any other
+technologies than these two results in a malfunctioning application.
+The main drawback of using Hibernate Search in our case the inability to index
+data from different sources than the database. Since one of the requirements
+is to enable searching data from social networks, the current solution
+can hardly fulfill this requirement. 
+
+Hibernate search provides the annotation interface which serves for
+indexing purposes. A subset of these annotations is used to mark indexed
+entities and fields withing them which should form the document in
+the index. Next, a few field annotations enable to configure how the
+fields are later processed by specifying analyzers to be applied on
+those fields.
+
+We do not have such control over indexed data (?) rozepsat
+
+In the current state the indexed data are stored in memory. This means
+that the index must be created each time the application starts since
+after restarting the application, all indexed data are lost.
+
+Indexed data are kept in an in-memory index, so these data are lost every time the application server stops. This is the reason why data in the database are indexed right after the application starts running.
+
+Hibernate Search uses Lucene as a search engine which handles indexing
+and full text search. The created classes in the EEG/ERP Portal application
+manipulate straightly with the Lucene API which is considered low-level
+for these purposes and results in unexpected behavior of the full
+text search in some cases (e.g. text highlighting of a subset of found
+results).
+
+Full text search engine, apart from its dependency on Hibernate, is
+tightly coupled with the whole application. With the growing amount
+of indexed data, the full text search performance might go down as
+with limited amount of memory there is not much space for scaling.
+
+
+\subsection{Database Search}
+
+
+\section{Desired Improvements of Full Text Search}
+
+
+\subsection{Social Network Search}
+
+Since Hibernate Search is used as a technology responsible, aside others, for data indexing, only the data stored in the relational database are and can be indexed. However, articles and other information found in the LinkedIn group of EEG/ERP Portal have no direct connection to the database, so Hibernate Search cannot reach these data and therefore cannot save them to the index it keeps. A possible solution which partially solves this problem would be to keep duplicate records about the articles in the EEG/ERP Portal database. Apart from the problem with keeping three copies of basically the same information (the original article published on LinkedIn, its copy in the database and its representation in the Lucene index), those articles published directly from LinkedIn and not from the EEG/ERP Portal via a form would not be noticed by the application and their corresponding documents in the index would not exist.
+
+
+\section{Current state of integration with social networks}
+
+Currently, EEG/ERP Portal is successfully integrated with its LinkedIn group. A user can use the Portal to publish and see LinkedIn articles straight. To access to LinkedIn, a user must be authorized via the OAuth security protocol.
+
 
 \section{Choice of full text search solution}
 
 From the search engines listed in previous parts of the thesis and technologies on which EEG/ERP Portal is based, the choice of the search engine can be restricted by the following criteria:
 
-Speed - Based on the comparison made in chapter 3, the most performant search engines are ... and Lucene and all those built on Lucene
-
-integration with EEG/ERP Portal - EEG/ERP Portal is based on Java technologies and this is why search engines providing Java API are easier to be integrated to the working infrastructure.
-
-Other features and extensions - Because full text search
-engines as they are take care of indexing and searching data, it is desirable to have a set of ``helper tools'' (such as result highlighting, faceted search, synonym search and more-like-this search) to make building full text search easier. It is considered natural for the end user to use the fulltext search with some of such tools implemented. 
-
-Independence on data sources - The chosen search engine must be able to accept data from various sources and not be limited to only one specific data source, such as relational database. The reason behind this is the mentioned need to index LinkedIn articles as well as to enable possible furter indexing scenarios in the future, such as indexing .pdf or XML files.
-
-Independence on other technologies - This criterion means that the search engine should not rely on a specific technology to be used. Dependence of Hibernate Search on Hibernate or ... on MySQL may serve as examples of the search engines which perform well is the conditions are met, but cannot work if not. 
-
-Community - Numerous and active developer community also plays a big role in the final choice. The bigger community around the search engine is, the higher is the chance that the engine development will not stop early, new features will be introduced and that found bugs will be resolved quickly. Although one-man projects can look very promising and their future development is more likely to be managed by still growing community, 
+\begin{itemize}
+	\item speed - Based on the comparison made in chapter 3, the most performant search engines are ... and Lucene and all those built on Lucene.
+	\item integration with EEG/ERP Portal - EEG/ERP Portal is based on Java technologies and this is why search engines providing Java API are easier to be integrated to the working infrastructure.
+	\item other features and extensions - Because full text search
+engines as they are take care of indexing and searching data, it is desirable to have a set of ``helper tools'' (such as result highlighting, faceted search, synonym search and more-like-this search) to make building full text search easier. It is considered natural for the end user to use the full text search with some of such tools implemented. 
+	\item independence on data sources - The chosen search engine must be able to accept data from various sources and not be limited to only one specific data source, such as relational database. The reason behind this is the mentioned need to index LinkedIn articles as well as to enable possible further indexing scenarios in the future, such as indexing .pdf or XML files.
+	\item independence on other technologies - This criterion means that the search engine should not rely on a specific technology to be used. Dependence of Hibernate Search on Hibernate or ... on MySQL may serve as examples of the search engines which perform well is the conditions are met, but cannot work if not. 
+	\item community - Numerous and active developer community also plays a big role in the final choice. The bigger community around the search engine is, the higher is the chance that the engine development will not stop early, new features will be introduced and that found bugs will be resolved quickly. Although one-man projects can look very promising and their future development is more likely to be managed by still growing community, 
 A well documented project, many available tutorials and active user groups are a good sign of project stability and ensure that there will be someone ready to help to solve problems.
+
+\end{itemize}
+
+The search engines were evaluated based on these criteria. This evaluations can be seen for reasons of clarity in table \ref{tab:ComparisonOfFullTextSearchEngines}
 
 TODO MODIFY the table.
 
-\begin{tabular}{|c|c c c c c|}
-\hline
 
-\textbf{Search Engine } & \textbf{Speed} & \textbf{Integration} & \textbf{Extension} & \textbf{Independence} & \textbf{Community} \\
-\hline
-Indri & Excellent & OK & KO & OK & 1 \\
-\hline
-Sphinx & Excellent & OK & KO & OK & 3 \\
-\hline
-Lucene & Excellent & OK & OK & OK & 5 \\
-\hline
-Zettair & Excellent & KO & KO & OK & 1 \\
-\hline
-Xapian & Good & OK & OK & OK & 1 \\ 
+\begin{table}
+	\centering
+		\begin{tabular}{|c|c c c c c|}
+		\hline
 
-\hline
-\end{tabular}
+		\textbf{Search Engine } & \textbf{Speed} & \textbf{Integration} & \textbf{Extension} & \textbf{Independence} & \textbf{Community} \\
+		\hline
+		Indri & Excellent & \tick & \fail & \tick & 1 \\
+		\hline
+		Sphinx & Excellent & \tick & \fail & \tick & 3 \\
+		\hline
+		Lucene & Excellent & \tick & \tick & \tick & 5 \\
+		\hline
+		Zettair & Excellent & \fail & \fail & \tick & 1 \\
+		\hline
+		Xapian & Good & \tick & \tick & \tick & 1 \\ 
+
+		\hline
+		\end{tabular}
+	\caption{Comparison of Full Text Search Engines}
+	\label{tab:ComparisonOfFullTextSearchEngines}
+\end{table}
+
+
 	
-\section{How Lucene works}
+\section{How Solr Works}
 
 
-\section{Instalation}
+\section{Installation}
 
-Distributed as a .war archive
+The whole Solr distribution can be downloaded from the Solr website \cite{SolrHome}. It comes in a form of a .war archive. Apart from the Solr application itself, it also includes ...
 
 HttpSolrServer and EmbeddedSolrServer
 
@@ -252,21 +317,34 @@ Todo
 
 \section{Ways of Indexing in Solr}
 
+kecy na zacatek.
+
+\subsection{SolrJ}
+
+Solr provides a Java API for integration of Java applications with the Solr server called SolrJ API.
+
+\subsection{DataImportHandler}
+
 Todo
+
+...
 
 DataImportHandler vs. SolrJ
 
-DataImportHandler (DIH) offers fast indexing of data from relational databases. The extraction of data to be added to the index as documents is based on creating custom SQL results. 
-The drawback of DIH is its inflexibility. After each change of the relational schema the SQL queries which fetch the indexing data must be changed accordingly. Also the logic in the form of the SQL queries is out of reach of the EEG/ERP Portal application logic since the queries must be written in a special configuration file managed by the Solr server.
+DataImportHandler (DIH) offers fast indexing of data from relational databases. 
+The extraction of data to be added to the index as documents is based on creating custom SQL results. 
+The drawback of DIH is its inflexibility. 
+After each change of the relational schema the SQL queries which fetch the indexing data must be changed accordingly. 
+Also the logic in the form of the SQL queries is out of reach of the EEG/ERP Portal application logic since the queries must be written in a special configuration file managed by the Solr server.
 
 Disadvantages:
-
 \begin{itemize}
+
 
 \item Data model changes - For indexing of new data and enabling delta imports, it is necessary to add a new column to each table we wish to index. The column contains a timestamp for each record, holding the value of time of the last indexing.
 
 \item After deletion of data in the database, certain actions must be taken to enable DIH to reflect these changes in the index. 
-One way to do this is to browse the documents in the index and compare their ids with ids of their matching database records. If a document has no equvalent database record, it means that the record was deleted. After the comparison, redundant documents in the index are identified. This approax does not perform well.
+One way to do this is to browse the documents in the index and compare their ids with ids of their matching database records. If a document has no equivalent database record, it means that the record was deleted. After the comparison, redundant documents in the index are identified. This approach does not perform well.
 Another way is to add an extra column that captures deletion times. Deletion times together with the record identification are added before the physical deletion of records. DIH can then get all records from the last executed crawl. An appropriate function and before delete trigger must be created for this solution. 
 
 \item if the database schema changes - affected SQL queries must be rewritten to make them work again. SOLR schema changes is related to this matter as well. 
@@ -275,9 +353,9 @@ Another way is to add an extra column that captures deletion times. Deletion tim
 
 SolrJ - possibilities:
 \begin{itemize}
-\item @Field annotation SolrJ API in combination with addBean()/addBeans() methods.
-The usage of provided annotations brings a problem of ambiguity of mapped objects. Documents stored in the Solr index must posess an identifier which is unique across all stored documents. Object ids are unique only in the class scope, so global uniqueness is not ensured. (pouziti Solr UUID nebylo
-prostreleno). It is true that this way of making input documents is clear and easy. Unfortunatelly, its usage for more advanced scenarios is limited. This limitation lies in the unability to use the @Field annotation for fields which are Java objects and collections. Annotating just primitive or String value fields does not offer 
+\item @Field annotation SolrJ API in combination with the \texttt{addBean()} and \texttt{addBeans()} methods.
+The usage of provided annotations brings a problem of ambiguity of mapped objects. Documents stored in the Solr index must possess an identifier which is unique across all stored documents. Object ids are unique only in the class scope, so global uniqueness is not ensured. (pouziti Solr UUID nebylo
+prostreleno). It is true that this way of making input documents is clear and easy. Unfortunately, its usage for more advanced scenarios is limited. This limitation lies in the inability to use the @Field annotation for fields which are Java objects and collections. Annotating just primitive or String value fields does not offer 
 
 \item aspects - they are suitable for injecting cross-cutting concerns such as logging and database transactions to avoid spreading the same lines of code across the whole application. 
 In our case, the existing need for indexing domain objects can be realized by simply enriching the base DAO methods responsible for creating, updating and deleting an object. This way the indexing calls happen only in a few known places in code. Introducing an extra aspect for this situation is more likely to be overkill, not to mention added complexity in debugging.
@@ -294,11 +372,6 @@ But - there would be an extra dependency on another technology. Besides, to cove
 \section{Integration}
 
 Todo
-
-
-\section{SolrJ}
-
-Solr provides a Java API for integration of Java applications with the Solr server called SolrJ API.
 
 
 \chapter{Index design}
@@ -333,7 +406,7 @@ relational table, index structure is flat and does not allow nesting
 documents to form hierarchical structures as in the case of document
 databases like MongoDB.
 
-...Index ma plochou strukturu, neumoznuuje vnorovat dokumenty
+...Index ma plochou strukturu, neumoznuje vnorovat dokumenty
 do sebe, jako v pripade dokumentovych databazi. lze vsak imitovat
 relaci 1:N pomoci multivalued fields, ktere jsou ulozeny ve forme
 pole.
@@ -377,7 +450,7 @@ and efficiently. There are several ways to accomplish this goal, one
 of them involves flattening the relational structure. This leads to
 denormalized data which is mostly unacceptable in relational databases,
 but since index is quite different from databases, denormalization
-is even desired. The main thing one should know when desiging an index
+is even desired. The main thing one should know when designing an index
 structure is to know which search results a user expects and how the
 final representation of full text results should look like.
 
@@ -391,11 +464,11 @@ zvolene indexovane polozky pro danou entitu.
 
 \section{Java Reflection}
 
-Reflection is the ability to inspect the code and make its modifications at runtime. It is a feature that makes languages like Java more dynamic. Its heavy usage can be found especially in modern frameworks such as Spring or Hibernate, that both use reflection for instatiating classes from information in configuration files. 
+Reflection is the ability to inspect the code and make its modifications at runtime. It is a feature that makes languages like Java more dynamic. Its heavy usage can be found especially in modern frameworks such as Spring or Hibernate, that both use reflection for instantiating classes from information in configuration files. 
 
-A very common use case of reflection in Java is the usage with annotations. This combination opens many possibilities of manipulating class metadata. In JUnit 4, for example, the @Test annotation was introduced. The JUnit framework looks up all methods marked by this marker annotation and call them in each execution of running unit tests.
+A very common use case of reflection in Java is the usage with annotations. This combination opens many possibilities of manipulating class metadata. In \textit{JUnit 4}, for example, the \texttt{@Test} annotation was introduced. The JUnit framework looks up all methods marked by this marker annotation and call them in each execution of running unit tests.
 
-The root class of the Java object hierarchy, the Object class, has the method getClass() providing the corresponding Class object, meaning that all Java classes can be invoked or inspected by means of reflection.
+The root class of the Java object hierarchy, the Object class, has the \texttt{getClass()} method providing the corresponding \texttt{Class} object, meaning that all Java classes can be invoked or inspected by means of reflection.
 
 %Co to je, na co se pouziva, jak se pouziva v implementaci
 %
@@ -415,21 +488,33 @@ The root class of the Java object hierarchy, the Object class, has the method ge
 %
 %It's useful in a lot of situations. Everywhere you want to be able to dynamically plug in classes into your code. Lot's of object relational mappers use reflection to be able to instantiate objects from databases without knowing in advance what objects they're going to use. Plug-in architectures is another place where reflection is useful. Being able to dynamically load code and determine if there are types there that implement the right interface to use as a plugin is important in those situations.
 
-\section{REST}
+\section{Collecting LinkedIn Data}
 
-REpresentational State Transfer
-co to je
+REST
+
+leverages existing technologies - HTTP GET update - POST or PUT. It taken the advantage of the HTTP protocol itself to describe the action that should be taken of a given resource.
+
+\subsection{LinkedIn REST API}
+
+LinkedIn provides REST API to access to various information. \textit{Representational State Transfer} (REST) is pragmatically defined in \cite{REST:Introduction} as \textit{``a set of principles that define how Web standards, such as HTTP and URIs, are supposed to be used''}.
+Internal domain model of LinkedIn, which inludes entities like people, companies and jobs, is mapped to REST resources. Resource is something that can be identified by URL. For example, 	
+Required information one wishes to obtain can be specified by URI parameters in the JSON format. 
+
+\subsection{Spring Social}
+
+EEG/ERP Portal uses Spring Social to interact with LinkedIn. 
+Spring Social offers a bunch of methods to interact with LinkedIn which wrap the existing LinkedIn REST API calls. 
+They give a user a set of default fields that are appropriate for some use cases. 
+Although it is very convenient to have such abstraction layer, sometimes there is a need to obtain other fields. 
+In such cases, a custom LinkedIn REST call must be created.
+The call can contain field selectors which are used to specify which fields to return in the response.
+The following example shows the usage of field selectors in the REST call which gets full information about a LinkedIn article published in the EEG/ERP Portal group:
+
+...
+
+If the Spring Social method is called, some information, such as article summary and its time stamp, is missing. 
 
 
-\section{LinkedIn API}
-
-LinkedIn provides REST API to access to various information. Required information one wishes to obtain can be specified by URI parameters in the JSON format. 
-co vratit, jestli posts, users, groups
-etc. a jak detailne (jestli napr. u posts vratit i popis,
-timestamp, id,...). Spring poskytuje metody, ktere obaluji REST volani,
-nekdy ale neposkytuji, co je zrovna potreba (treba nevraci
-timestamp a summary u articles). Lze ovsem vytvorit
-vlastni REST volani a nechat si vratit data, ktera zrovna potrebujeme.
 
 Indexers
 
@@ -443,56 +528,114 @@ objekt experiment, ktery obsahuje kolekci podrazenych hardware
 objektu.
 
 
-\section{Hibernate lazy vs. eager loading}
+\section{Collecting database data}
 
-explain pojem dynamic proxy pattern, ktery Hibernate pro eager
-loading pouziva.
+% HOTOVO
 
-A program may consist of several domain objects which contain a reference
-to another domain object or to a collection of objects. Most of the
-time when accessing a certain domain object it is enough to get only
-the fields of primitive types and associated collections are not needed.
-This prevents Hibernate from performing additional unnecessary queries.
+\subsection{Hibernate loading strategies}
 
-U lazy loadingu jde o usporu nepotrebnych dotazu, tim padem
-mensi rezii a tim urychleni behu aplikace. Lazy loading je proto
-uprednostnovan a pro kolekce, tedy vazby 1:N, je v Hibernate
-nastaven jako default. Pokud vsak potrebujeme pristoupit
-k objektum v kolekci lazily loaded objektu, dostaneme LazyInitializationException,
-protoze objekty nebyly do kolekce nacteny.
+Hibernate provides two strategies of fetching data from the database to their object representations. 
+As an analogy to database relationships, the POJO objects can maintain associations to other objects. 
+The strategies differ in the way they treat these object associations, both having their advantages and disadvantages. 
 
-Naproti tomu eager loading pri prvnim pristupu k objektu vytvori
-instance pro vsechny objekty, na ktere ma ziskany objekt vazbu. Tento
-approach je pametove narocnejsi, zpomaluje
-beh aplikace a mel by se pouzit jen v pripadech, kdy jsme
-si jisti, ze budeme potrebovat informace o associated objects.
+The first possible way is to load all associated object collections at the same time when the database record corresponding to the object is fetched. 
+This is called \textit{eager loading}. 
+The second way is to return only the data belonging directly to the object and not to fetch the collections until they are required to be fetched. 
+This approach is known as \textit{lazy loading}. 
 
-V aplikaci portalu je z techto rozumnych reasons snaha pouzit lazy
-loading, kde to jen jde. V common situations neni eager loading
-zapotrebi, a proto... 
+Lazy loading is generally considered a preferred way in most of the applications.
+The main reason behind this is performance.
+When a certain POJO object (actually the underlying table record) is accessed, it is sufficient for most of the use cases to fetch only the fields of primitive types, because associated collections are not needed. 
+By using lazy loading in such scenarios, many unnecessary join and select operations are often avoided. 
+In the end, the operation savings reflect both in lower time and memory costs which results in faster application responses. 
 
-Pro indexaci dat je zapotrebi fetch data z databaze vcetne
-vsech objektu, ktere k nim belong, aby se do indexu zachytily
-informace i z techto podrazenych objektu.
+On the contrary, overusing eager loading can considerably slow down the application and may lead to the \textit{n+1 selects problem} described e.g. in \cite{HibernateInAction:2004}.	
+However, there are many reasonable situations when all associated object data have to be always available. 
+As an example, one can imagine a requirement to always display writers together with all the books they have written. 
+Then it is completely legitimate to apply eager loading to load the books for each of their authors, since there is a certainty.
 
-Ensuring eager loading
+There are also cases when it is desired to load otherwise lazily initialized collections eagerly.
+Fortunately, there are several ways of how to enforce eager loading in Hibernate.
 
-- zmenou konfigurace Hibernate mapping. Neni pro nas suitable pristup,
-protoze je malo flexible. Znamenalo by to, ze by se k vsem objects
-nacitaly vsechny objekty s 1:N relaci. Dotazy by trvaly delsi
-dobu, bylo by treba vice pameti, takze melo by to za nasledek
-pomalejsi beh apliakce.
+To understand how lazy loading works in Hibernate, it is important to briefly explain the dynamic proxy pattern. 
 
-- custom HQL dotazy s fetchmode=``eager``. Je nutne psat zvlast
-pro kazdou entitu dotaz, ve kterem uvedeme, ktere objekty chceme eager
-fetchnout
+\subsubsection{Dynamic proxy}
 
-- vyuziti metody Hibernate.initialize(), ktere se jako parametr preda
-objekt, ktery ma byt k parent objektu pripojen. V kombinaci
-s Java reflexi lze docilit univerzalniho solution pro vsechny objekty
+Hibernate uses dynamic proxies to implement lazy loading of object properties. 
+The famous \textit{``Design Patterns''} book written by \textit{Gang of Four} (GOF) \cite{GOF:DesignPatterns} describes the proxy pattern the following way:
+
+\begin{quote}		
+\textit{``Allows for object level access control by acting as a pass through entity or a placeholder object.''}
+\end{quote}
+
+
+\begin{figure}[h]
+	\centering
+		\includegraphics[width=0.7\textwidth]{figures/proxy.eps}
+	\caption{Proxy Design Pattern.}
+	\label{fig:proxy}
+\end{figure}
+
+
+When an object is required to be loaded, some of its object properties are not actually fetched from the database. Instead, they are represented by their corresponding proxy objects. 
+The proxy object is usually referred to as \textit{stub} and does not hold any actual information. 
+Its only ability is to call the real object it represents. The UML diagram depicted in figure \ref{fig:proxy} helps visualize the whole mechanism.
+Since these stub objects are in case of Hibernate created dynamically at runtime by using the bytecode libraries \textit{javassist} or \textit{CGLIB}, we talk about dynamic proxies. 
+
+
+\subsubsection{Ensuring eager loading}
+
+As written earlier, it is desired to apply lazy loading of object collections for as many cases as possible. If it is necessary, switching to the eager loading strategy can be done using the following ways:
+
+\begin{itemize}
+	\item{change of Hibernate mapping configuration}
+	- This modification involves setting the \texttt{lazy=''false''} attribute for collections to be eagerly loaded. 
+	It means that all affected 1:N relationships are always loaded together with the parent object. 
+	This approach is not very flexible, because no proxies are created and the lazy loading behavior cannot be therefore configured at runtime.
+
+	\item {custom HQL queries or Hibernate criteria that force eager fetching}
+	- If HQL queries are used, one can specify eager fetching using the \texttt{fetch} keyword. 
+	In case of using the Criteria Query API, the \texttt{setFetchMode()} method with its fetch mode attribute set to \texttt{FetchMode.EAGER} does the job.
+	This alternative is more flexible than the previous one since lazy object initialization, which is set by default, is overridden by the eager fetch mode. 
+	The created proxy objects call the associated real objects to fetch necessary data. 
+	The drawback of this solution is the necessity to create custom HQL queries or Hibernate criteria for each entity that will cause collections to be lazy-loaded. As the created queries can differ a lot, it is very difficult to apply the solution in a generic way.
+	
+
+	\item {usage of the \texttt{Hibernate.initialize()} method} 
+		- This method is used to initialize lazy-loaded collections. Its parameter takes an object that is to be fetched to the parent object.
+		The method also ensures that all already initialized objects will be omitted.
+		The power of the \texttt{Hibernate.initialize()} method lies in its universality. When used together with Java Reflection, a universal solution enforcing eager loading of collections for any POJO object can be achieved. 
+		It can be used even after the session is closed.
+
+\end{itemize}
+
+%U lazy loadingu jde o usporu nepotrebnych dotazu, tim padem
+%mensi rezii a tim urychleni behu aplikace. Lazy loading je proto
+%uprednostnovan a pro kolekce, tedy vazby 1:N, je v Hibernate
+%nastaven jako default. Pokud vsak potrebujeme pristoupit
+%k objektum v kolekci lazily loaded objektu, dostaneme LazyInitializationException,
+%protoze objekty nebyly do kolekce nacteny.
+%
+%Naproti tomu eager loading pri prvnim pristupu k objektu vytvori
+%instance pro vsechny objekty, na ktere ma ziskany objekt vazbu. Tento
+%approach je pametove narocnejsi, zpomaluje
+%beh aplikace a mel by se pouzit jen v pripadech, kdy jsme
+%si jisti, ze budeme potrebovat informace o associated objects.
+%has negative side-effects on performance.
+%
+%V aplikaci portalu je z techto rozumnych reasons snaha pouzit lazy
+%loading, kde to jen jde. V common situations neni eager loading
+%zapotrebi, a proto... 
+%
+%Pro indexaci dat je zapotrebi fetch data z databaze vcetne
+%vsech objektu, ktere k nim belong, aby se do indexu zachytily
+%informace i z techto podrazenych objektu.
+
+Based on the aforementioned possibilities 
 
 
 \section{Indexing algorithm}
+
 
 
 \section{Solr configuration}
@@ -502,17 +645,19 @@ s Java reflexi lze docilit univerzalniho solution pro vsechny objekty
 
 \section{Periodic indexing}
 
-Since LinkedIn articles can be added directly via LinkedIn from a user account and not via the form on the EEG/ERP Portal website, the portal application pri adding
-articles takovymto zpusobem se o novych acticles nemuze
-dozvedet. Proto u LinkedIn articles je potreba krome
-indexovani i clanku pridanych z portalu zajistit i indexaci
-clanku pridanych vne portal. Resenim je provadet
-pravidelnou indexaci vsech clanku na LinkedInu. Objektova
-reprezentace articles lze obdrzet pres LinkedIn API a ty
-potom v pozadovane podobe predat indexeru. Zajisti se tim
-pritomnost vsech publikovanych articles na LinkedInu v indexu.
-Nevyhodou je fakt, ze nektere clanky budou indexovany se zpozdenim
-danem v nejhorsim pripade periodou jejich indexovani. 
+There are two ways to add an article to the EEG/ERP Portal group: either indirectly by filling in the form on the EEG/ERP Portal website or directly from LinkedIn.
+
+In the first case, articles can be indexed immediately after publishing them because their times of publishing are known due to the interaction with EEG/ERP Portal. 
+The last published article in the LinkedIn group can be fetched by the means of LinkedIn REST API and then modified by the indexer so that information about the article can be added to the index.
+
+The latter case is a bit more complicated as there is no interaction with the EEG/ERP Portal. 
+So in order to index all LinkedIn articles, the article data must be retrieved first.
+It can be done by using LinkedIn REST API calls to receive their object representation.
+Since there is no available information of when articles are uploaded to LinkedIn, the REST calls must be done periodically.
+This way periodic indexing of all articles published on LinkedIn can be achieved.
+Although the obvious disadvantage of periodic indexing is the existence of a delay between publishing times of some articles and their indexing times (which is equal to the indexing period in the worst case), this method assures that all articles get indexed in the end.
+
+\section{Scheduling in Spring}
 
 The Spring Framework has a native support of task scheduling and asynchronous
 calls. Since its version 3.0, methods can be scheduled and also run
@@ -526,10 +671,10 @@ for the @Scheduled annotation, from which the most flexible option
 is specifying a cron expression to trigger a task as shown on the
 following lines:
 
-\begin{verbatim}
+\begin{lstlisting}[language=Java]
 @Scheduled(cron=* 0 22 * * SAT-SUN)
 public void indexAll()
-\end{verbatim}
+\end{lstlisting}
 
 
 This way, the method indexAll() will be scheduled to run every at
@@ -543,32 +688,32 @@ about the syntax in the Quartz documentation \cite{QuartzDoc}.
 The @Async annotation is used to mark the methods to be invoked asynchronously.
 It is very easy to use for methods having void return values:
 
-\begin{verbatim}
+\begin{lstlisting}[language=Java]
 @Async
 public void indexLinkedIn()
-\end{verbatim}
+\end{lstlisting}
 
 
 In order to enable annotation-based scheduling it is necessary to
 add a new element in the application context file as well as the task
 namespace to which the element belongs.
 
-\begin{verbatim}
+\begin{lstlisting}
 <xmlns:task="... http://www.springframework.org/schema/task" 
 xsi:schemaLocation="... http://www.springframework.org/schema/task/spring-task.xsd">
 ...
 <task:annotation-driven executor="indexingExecutor" scheduler="indexingScheduler"/>
-\end{verbatim}
+\end{lstlisting}
 
 
 The annotation-driven element requires executer and scheduler attributes
 to be set to handle tasks represented by methods marked by @Async
 and @Scheduled annotations, respectively.
 
-\begin{verbatim}
+\begin{lstlisting}
 <task:executor id="indexingExecutor" pool-size="5"/> 
 <task:scheduler id="indexingScheduler" pool-size="1"/>
-\end{verbatim}
+\end{lstlisting}
 
 
 
