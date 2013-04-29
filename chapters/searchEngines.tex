@@ -1,23 +1,14 @@
 \chapter{Available Search Engines}
 
-According to the comparisons of fulltext search engines in \cite{MiddletonBaeza}
-and \cite{SinghSearchEngines}, there are several reasonable options
-to choose from. Unfortunately, there is not enough comparative benchmarks
-on performance of search engines. Available comparisons are often
-not so objective since, for example, only the default settings of
-search engines are used in the tests or just one use case is applied
-(as in \cite{SinghSearchEngines}). This may lead to false conclusions
-obtained from these benchmarks because search engines' capabilities
-might not have been fully demonstrated and tested. It is also worth
-mentioning that some comparisons were made a few years ago and are
-likely to be out-dated since these technologies evolve quite quickly.
-All these experiments showed, however, that database fulltext search
-possibilities are way too slow \cite{BenchmarkLuceneRelDB,BenchmarkMysqlLuceneSphinx}.
+According to the comparisons of fulltext search engines in \cite{MiddletonBaeza} and \cite{SinghSearchEngines}, there are several reasonable options to choose from. 
+Unfortunately, there is not enough comparative benchmarks on performance of search engines. Available comparisons are often not so objective since, for example, only the default settings of search engines are used in the tests or just one use case is applied
+(as in \cite{SinghSearchEngines}). 
+This may lead to false conclusions obtained from these benchmarks because search engines' capabilities might not have been fully demonstrated and tested. 
+It is also worth mentioning that some comparisons were made a few years ago and are likely to be out-dated since these technologies evolve quite quickly.
+All these experiments showed, however, that database fulltext search possibilities are way too slow \cite{BenchmarkLuceneRelDB,BenchmarkMysqlLuceneSphinx}.
 
-In the following paragraphs the reader can grasp a basic overview
-on several full text search engines which are considered to be fairly
+In the following paragraphs the reader can grasp a basic overview on several full text search engines which are considered to be fairly
 performant and usable for common full text search scenarios.
-
 
 \section{Indri}
 
@@ -79,7 +70,7 @@ Among its strengths we can name quick installation and deployment
 and a perfect online documentation for an open source project. 
 Extensibility is quite an issue if our application requires additional features
 {[}citace{]}. 
-It its well-suited for fulltext database searches on
+It its well-suited for full text database searches on
 a huge amount of documents.
 
 
@@ -101,67 +92,51 @@ The comparison in this paper concludes that Zettair has the fastest indexer, pro
 Zettair is being developed at the Australian university and is written entirely
 in C. 
 One of its main features is the ability to handle large data
-sets (100GB and more) due to its scalability to large collections \cite{ZettairHome}.
+sets (100 GB and more) due to its scalability to large collections \cite{ZettairHome}.
 
 Among its disadvantages belong its inability to index nothing else than text and html and the fact that the index cannot be built in
 parallel using multiple machines. 
 There are currently no ports to other languages available, so the full text search, when using Zettair, must be implemented in C.
 
 
-\section{Nadstavby}
+\section{Lucene-based Search Solutions}
 
+Popularity of Lucene is reflected in the existence of several search solutions which are based on this search library.
+Because Lucene itself as a search library provides the core functionality, i.e. indexing and searching documents, its direct integration in applications without any additional enhancements can be cumbersome in the most common use cases.
+Unless there are special requirements involving access to low-level APIs of Lucene, opting for the already proved search solutions is recommended [zdroje ze SO???].
 
-The purpose of search engines is to provide the core functionality needed to build a working full text search solution.
-However, it is expected that a user will interact somehow with the search engine, so a UI (User Interface) must be created. Apart from this logical requirement it is a common practice that the search solutions include additional enhancing features that improve usability and overall benefits from full text search. Result highlighting, searching synonyms, wildcard search, faceted search, just to name a few.
+Among the things the solutions have in common is easier integration with an existing application and overall ease of their use when compared with Lucene. 
+However, the concrete usage of these search solutions, which are described below in more detail, strongly depends on the current architecture and requirements.
 
-
-\subsection{Lucene-based search engines}
-
-Since the latter part of the thesis will be focused on Lucene, it
-is also necessary to introduce technologies that use Lucene as its
-basis. These technologies provide a higher-level apporach to full
-text search over data when compared to manipulating input data and
-Lucene index by just using pure Lucene API.
-
+The solutions built on top of Lucene can be divided into \textit{search tools} and \textit{search servers}. 
+Search tools extend Lucene in a specific way to cover the problem domain and can be embedded to an application in a form of a library. 
+They are usually dependent on other technologies which must be included in the target application. 
+A widely used example of such search tool is \textit{Hibernate Search}.
+Search servers, on the other hand, are fully independent standalone applications which communicate with the application typically by using the HTTP protocol. The representatives of this category are \textit{Solr} and \textit{ElasticSearch}.
 
 \subsubsection{Hibernate Search}
 
-Hibernate Search \cite{HibernateSearchHome} forms a bridge between
-Hibernate and Lucene. The aim of Hibernate Search is to enable fulltext
-search over persistent domain model by overcoming certain mismatches
-between the domain model and simple Lucene document. In order to make
-it work, Hibernate or JPA must be used as an object-relational mapping
-between Java objects and database tables. It leverages the power of
-Lucene for indexing and searching and of Solr (more about Solr can
-be found in section 3.6.2), whose of useful features and analyzers
-can be used. It works with persisted Hibernate entities which are
-then made searchable in Lucene index. In order to achieve that, created
-model classes are added specific annotations for fulltext search purposes.
-Apart from annotating the entities that should be indexed, no extra
-configuration is needed. By default, Hibernate Search automatically
-updates Lucene index after an object is saved or updated through Hibernate.
-
+Hibernate Search \cite{HibernateSearchHome} is an enterprise search tool that forms a bridge between Hibernate and Lucene. 
+The aim of Hibernate Search is to enable full text search over persistent domain model by overcoming certain mismatches between the domain model and simple Lucene documents.
+In order to make Hibernate Search work, Hibernate or JPA must be used as an object-relational mapping between Java objects and database tables. 
+% It leverages the power of Lucene for indexing and searching.
+% and of Solr (more about Solr can be found in section 3.6.2), whose of useful features and analyzers can be used. 
+It manipulates with persisted Hibernate entities and makes them searchable by adding them in the Lucene index. 
+By default, Hibernate Search automatically updates Lucene index after an object is saved or updated by using Hibernate.
+In order to achieve indexing of Hibernate entities, created model classes must be enriched of specific Hibernate Search annotations for full text search purposes.
+Apart from annotating the entities that should be indexed, no extra configuration is needed. 
 
 \subsubsection{Solr}
 
-Solr \cite{SolrHome} is an open source search server built on top
-of Lucene which runs within a servlet container such as Jetty or Tomcat.
-As in case of Hibernate Search, Lucene is used for the core functionality
+Solr \cite{SolrHome} is an open source search server built on top of Lucene which runs within a servlet container such as Jetty or Tomcat.
+Because it can be considered as a Lucene extension, most of the Lucene terminology is used for Solr as well. 
+Unlike Lucene, document fields have to be defined in the application schema file.
 
-indexing and searching. Solr extends Lucene by providing
-many useful features related to full text search, e.g. hit highlighting,
-faceted search, rich document handling or the did you
-meanfeature, just to name a few. Since Solr runs
-as a separate process, it communicates with applications via HTTP
-requests, which represent query data, and HTTP responses, representing
-search results found in the index, by exposing its REST-like API.
-This technology is configuration-driven and in some cases everything
-can be set up with no need of writing a single line of Java code. 
-
-SolrJ client is a recommended way of how to integrate an existing
-Java application with the Solr server.
-
+Solr extends Lucene by providing many useful features related to full text search, e.g. hit highlighting,
+faceted search, rich document handling or the did you mean feature, just to name a few. 
+Since Solr runs as a separate process, it communicates with applications via HTTP requests, which represent query data, and HTTP responses, representing search results found in the index, by exposing its REST-like API. 
+This technology is configuration-driven and in some cases everything can be set up with no need of writing a single line of Java code. 
 
 \subsubsection{ElasticSearch}
 
-It is another promising young technology build on Lucene, designed from its early beginnings as a highly scalable solution suitable for big data.
+Elastic Search \cite{ElasticSearchHome} is another promising young technology build on Lucene, designed from its early beginnings as a highly scalable solution suitable for big data.

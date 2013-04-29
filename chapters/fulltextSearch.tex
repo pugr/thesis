@@ -18,13 +18,13 @@ retrieval (IR) is loosely defined as
 
 This definition as well as the definitions from other sources (e.g. from \cite{Witten:1999:MGC:323905}) sum up the purpose of IR in a very general way.
 While the definition above puts no restrictions to the nature of stored documents in the IR system and therefore comprises both full text search and database systems, there exist stricter IR definitions that do not apply to structured data found typically in relational databases. 
-Such definition of IR can be found in \cite{Manning:2008:IIR:1394399}:
+Such definition of IR can be found in \cite{ManningRaghavanSchuetze08}:
 
 	\begin{quote}
 		\textsl{``Information retrieval (IR) is finding material (usually documents) of an unstructured nature (usually  text) that satisfies an information need from within large collections (usually stored on computers).''}
 	\end{quote}
 
-All IR systems - and full text search engines are no exception - are based on the same architecture which is adapted to requirements the specific systems have. In addition, these systems share common IR terminolgy, whose most important terms are explained in this chapter.
+All IR systems - and full text search engines are no exception - are based on the same architecture which is adapted to requirements the specific systems have. In addition, these systems share common IR terminology, whose most important terms are explained in this chapter.
 
 \section{Principles of Full Text Search}
 
@@ -53,7 +53,7 @@ TODO vysvetlit schema, pojmy nize - in progress...
 
 \subsubsection{Preprocessing phase}
 
-Both input query and documents usually undergo several preprocessing steps. These steps, sometimes reffered to as \textsl{filters},   
+Both input query and documents usually undergo several preprocessing steps. These steps, sometimes referred to as \textsl{filters},   
 treat the input text as a stream. 
 
 Tokenization = token stream -> tokens; token normalization -> lowercasing letters, removal of accents, diacritics and so on
@@ -62,6 +62,7 @@ separate the text into basic textual units called \textsl{tokens}, in some sourc
 
 \subsubsection{Indexing phase}
 
+% HOTOVO
 \subsubsection*{Index}
 
 Index is defined by Frakes \cite{IRDataAlgorithms} the following way: 
@@ -70,16 +71,22 @@ Index is defined by Frakes \cite{IRDataAlgorithms} the following way:
 	\end{quote}
 Based on information found in \cite{ManningRaghavanSchuetze08, IRDataAlgorithms, Witten:1999:MGC:323905}, there are three main indexing methods – inverted file, signature file and bitmaps. Based on the comparisons made in \cite{Witten:1999:MGC:323905} and in \cite{Zobel:1996:GPC:234889.234891}, using inverted files should be the preferred way due to their search efficiency and lower index size they require. The remaining two alternatives are recommended to be used only in certain circumstances which are very rare in practice. 
 
-\subsubsection*{Inverted File}
+\subsubsection*{Inverted Index}
 
-This data structure can be thought of as the well-known index at the end of a book. If we sticked to the IR terminology and characterize it more precisely, we might come up with a more precise characteristics, such as the one found in \cite{Witten:1999:MGC:323905}:
+This data structure, sometimes referred to as the \textit{inverted file}, can be thought of as the well-known index at the end of a book. If the IR terminology is followed, inverted index can be characterized more precisely. One of such more precise characteristics can be found in \cite{Witten:1999:MGC:323905} and claims that:
 
 \begin{quote}
 		\textsl{``An inverted file contains, for each term in the lexicon, an inverted list that stores a list of pointers to all occurrences of that term in the main text, where each pointer is, in effect, the number of a document in which that term appears.''}
 	\end{quote}
 	
-	To visualize the basic idea of the invered file, Figure  represents a situation of an indexed sentence.
-	Obrazek!!!
+	To visualize the basic idea of the inverted file, Figure \ref{fig:inverted_index} represents a situation of a few indexed terms and their corresponding occurrence in documents.
+
+\begin{figure}[h]
+	\centering
+		\includegraphics[scale=0.63]{figures/inverted_index.eps}
+	\caption{The Inverted Index. Adapted from \cite{ManningRaghavanSchuetze08}.}
+	\label{fig:inverted_index}
+\end{figure}
 	
 \subsubsection{Query evaluation}
 
@@ -162,25 +169,25 @@ This data structure can be thought of as the well-known index at the end of a bo
 
 Relational Databases (RDBMS) are the most popular type of available databases. 
 
-Relational database systems and their properties ACID. Atomicity, Consistency, Isolation, Durability to ensure correct transaction flow. - widely used
-for structured data, they are a perfect fit for storing structured
-data. As long as these conditions are met relational databases are
-a recommended solution for our domain.
+Relational database systems and their properties ACID. 
+Atomicity, Consistency, Isolation, Durability to ensure correct transaction flow. 
+widely used for structured data, they are a perfect fit for storing structured data. 
+As long as these conditions are met relational databases are a recommended solution for our domain.
 
-traditional search engines - e.g. MySQL databaze. Je zde konstrukce
+traditional search engines - e.g. MySQL database. The is a construct
 LIKE (LIKE '\%life\%').
 
 If more terms are searched the underlying query grows in complexity.
-Multiple JOIN operations must be used to fetch all data from corresponding
-tables, also the query must be written the way to ensure finding the
-records with terms not necessarily next to each other as well. As
-the query gets more complex, it takes more time to get query results.
-Furthermore, the query execution slows down due to the fact that the
-query needs to match each term individually.
+Multiple JOIN operations must be used to fetch all data from corresponding tables.
+Furthermore, the query must be written the way to ensure finding the records with terms not necessarily next to each other as well. 
+As the query gets more complex, it takes more time to get query results.
+Another reason why the query execution slows down is the fact that the query needs to match each term individually.
 
 Zdroj: \cite{Solr3EnterpriseSS}
 
-Full text search engines are based on the document structure which is analogous to a single table. Compared to RDBMS, there is in most cases no JOIN or any similar operation. The overall structure of documents is flat due reaching stored data as fast as possible.
+Full text search engines are based on the document structure which is analogous to a single table in RDBMS. 
+Compared to RDBMS, there is in most cases no JOIN or any similar operation. 
+The overall structure of documents is flat due to the need to retrieve stored data as fast as possible.
 
 The query result does not contain any information on the relevancy of searched terms and found results. 
 Relational database systems simply output the records matching the criteria.
@@ -203,9 +210,9 @@ generally have less usable structure than the table used by relational
 DBMS.
 
 IR - retrieval is probabilistic. 
-No certainity that a retreived document will meet the informaiton need of the user. 
-(typically, some relevant documents will be missed, whereas some nonrelevant documents wil be
-retreived) vs. DB queries consist of attribute-value pairs that either
+No certainty that a retrieved document will meet the information need of the user. 
+(typically, some relevant documents will be missed, whereas some irrelevant documents will be
+retrieved) vs. DB queries consist of attribute-value pairs that either
 match or do not match records in the database.
 
 same - their databases are often very large (can be gigabytes)
@@ -220,8 +227,8 @@ When searching over unstructured data and large data sets, full text
 search should be favored to querying relational databases.
 \begin{itemize}
 \item faster than traditional database search - benefits from word index,
-ktery se prochazi pri hledani (jsou pouzity to look up records),
-vs. DB - provadi se full table scan - see the section \ref{sec:fullVsDb}
+which is traversed during searching (they are used to look up records),
+vs. DB - full table scan is performed- see the section \ref{sec:fullVsDb}
 \item found records can be sorted by their relevance. This is called ranking.
 \item good performance also over a DB with millions of records
 \item ability to skip common words with no additional information. This
@@ -235,21 +242,21 @@ It is advised to use full text search if:
 	\item flexible querying is demanded.
 \end{itemize}
 
-\section{Search Engines}
-
-It is a software that is responsible for two steps:
-\begin{itemize}
-\item building an index on text
-\item answering queries by using the created index
-\end{itemize}
-Compared to databases, it beats them by scalability, relevance ranking,
-integration of different data sources (email, web pages, files, database,
-...)
+%\section{Search Engines}
+%
+%It is a software that is responsible for two steps:
+%\begin{itemize}
+%\item building an index on text
+%\item answering queries by using the created index
+%\end{itemize}
+%Compared to databases, it beats them by scalability, relevance ranking,
+%integration of different data sources (email, web pages, files, database,
+%...)
 
 
 \section{Indexing}
 
-Despite various specifics of available search engines, the indexing proces generally consists of several phases.
+Despite various specifics of available search engines, the indexing process generally consists of several phases.
 \cite{Fox:1991:FFA:903195}
 
 
