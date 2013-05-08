@@ -1,24 +1,30 @@
 
 \chapter{Introduction}
 
-Accessing required information from a large set of data in a quick
-and user-friendly manner is no longer an unachievable goal. 
-Advancements in the field of information retrieval in the last few decades made its applications, such as full text search, so common that they have become in many cases an essential part of many tasks of everyday's life in a modern society. 
-This work deals with the topic of efficient full text search over data belonging to the domain of the EEG/ERP Portal, a piece of software developed at the University of West Bohemia in Pilsen. 
+Accessing required information from a large set of data in a quick and user-friendly manner is no longer an unachievable goal. 
+Advancements in the field of information retrieval in the last few decades have made its applications 
+very common.
+Full text search, as one of such applications, has in fact become an essential part of everyday's life in a modern society.
+
+%, such as full text search, so common 
+%that they have become in many cases an essential part of many tasks of everyday's life in a modern society. 
+This work deals with the topic of full text search over data belonging to the domain of the EEG/ERP Portal, a piece of software which is being developed at the University of West Bohemia in Pilsen. 
 
 The work is organized into two main parts.
-The first part, theoretical part, is included in chapters 2 - 4 and covers most of the theoretical knowledge about various topics used later throughout the thesis. 
-Chapter 2 introduces core concepts of information retrieval (IR), comparison of IR and database systems, finally, several available open source full text search engines are described here as well. 
-In Chapter 3 EEG/ERP Portal together with its underlying technologies currently used for its development are presented. 
+The first part, theoretical part, includes chapters \ref{chap:fulltext}-\ref{chap:eegPortal} and covers theoretical knowledge used throughout the thesis. 
+Chapter \ref{chap:fulltext} deals with the problematics of full text search, its core concepts are introduced and a comparison between full text search and relational database systems is made.
+Specific open-source full text search engines and libraries are listed in Chapter \ref{chap:engines}.
+In Chapter \ref{chap:eegPortal}, the EEG/ERP Portal together with its underlying technologies, which are currently used for its development, are presented. 
 
-...TODO
+The practical part of the thesis is dedicated to creation of the full text search functionality and is formed by chapters \ref{chap:analysis}-\ref{chap:testing}.
+% builds upon the theoretical background provided in the theoretical part.
+Chapter \ref{chap:analysis} includes analysis of the state of the EEG/ERP Portal before any changes were made, and collecting full text search requirements. 
+Based on the requirements, a full text search solution is chosen and the overall system architecture is proposed.
+Chapter \ref{chapter:indexDesign} is focused on creating a document model for indexed data, and on all necessary configuration related to indexing and searching these data.
+Chapter \ref{chap:implementation} is devoted to implementation of the full text search functionality into the EEG/ERP Portal application.
+In Chapter \ref{chap:testing}, unit and integration tests that confirm the functionality of the created code are described.
 
-The practical part builds upon the theoretical aspects.
+%Chapter 7 comprises discussion about the chosen implementation and
+%potential future work based on results of this thesis.
 
-Chapter 5 describes the problem to be solved and the specific requirements.
-Chapter 6 discusses the architecture that was chosen based on these
-requirements and the implementation of the full text search section.
-Chapter 7 comprises discussion about the chosen implementation and
-potential future work based on results of this thesis.
-
-Chapter 8 finally summarizes the contents of the thesis.
+The final chapter, Chapter \ref{chap:conclusion}, contains a summary of the thesis and presentation of results.

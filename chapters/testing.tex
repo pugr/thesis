@@ -1,11 +1,13 @@
 \chapter{Testing}
+\label{chap:testing}
 
-This chapter presents created test cases to prove the correct functionality of the implementation of the full text search for EEG/ERP Portal. The tests are of two types. The first type of the tests are JUnit tests which cover the functionality on the core, application logic level. The second test category includes Selenium tests whose purpose is to simulate user interaction with the full text search.
+% http://vrtoonjava.wordpress.com/2012/06/17/part-3-dao-and-service-layer/ - testing section
 
-All tests interact with an independently running Solr test server to access indexed data. The server runs at .... on port 8686.
+This chapter presents created test cases to prove the correct functionality of the implementation of the full text search for the EEG/ERP Portal. The tests are of two types. The first type of the tests are JUnit tests which cover the functionality on the core, application logic level. The second test category includes Selenium tests whose purpose is to simulate user interaction with the full text search.
 
-All tests use the test database and an instance of the Solr server which is devoted only for testing purposes.
-Although the tests could have been performed in combination with the embedded version of the Solr server, its remotely running instance imitates the real situation better.
+All tests use the test data from the database server and interact with an independently running Solr test server to access indexed data. The server runs at the address 147.228.63.134 on port 8686 (147.228.63.134:8686/solr/).
+
+Although the tests could have been performed in combination with the embedded version of the Solr server, its remotely running instance imitates the production environment in a better way.
 
 %Jako reseni se pro testovani nabizela take tzv. embedded verze Solr serveru (trida EmbeddedSolrServer).
 %Protoze je server spojen s aplikaci, HTTP pristup je v tomto pripade
@@ -20,6 +22,30 @@ Although the tests could have been performed in combination with the embedded ve
 There were several test cases created by using JUnit4. It was possible to integrate JUnit with Spring in order to use declared Spring beans in the test cases. 
 Their main purpose is to verify expected functionality of various classes related to the full text search.
 
+\subsection{FulltextSearchServiceTest.java}
+
+This test class uses the \texttt{FulltextSearchService} class to test its autocomplete and faceting functionality.
+The \texttt{getAutocompleteResultsSuccess()} and \texttt{getAuto\-complete\-Results\-Fail()} tests the autocomplete part.
+As their names say, these methods test returning the expected output for two different input strings. 
+In case of the first mentioned test, the test passes if any autocomplete suggestions are found for the query string.
+On the contrary, the other test passes if a given search string outputs no autocomplete results.
+
+Faceted search is covered by the \texttt{get\-Document\-Count\-For\-Empty\-Query()}, \texttt{facet\-All\-Test()} and \texttt{facet\-None\-Test()} tests.
+\texttt{getDocumentCountForEmptyQuery()} tests obtaining the zero number of search results if an empty string is searched.
+The \texttt{facet\-All\-Test()} and \texttt{facet\-None\-Test()} methods test creating faceted categories.
+The \texttt{facetAllTest()} test passes if the number of documents in each category is greater than zero if all documents are retrieved (by using the * sign as the input query). 
+\texttt{facetNoneTest()} uses the empty search string that should not return any documents. Therefore, this test succeeds if the number of documents in each category is equal to zero.
+
+\subsection{IndexingServiceTest.java}
+
+\subsection{IndexingTest.java}
+
+It contains methods that test indexing created sample documents and their removal from the Solr index.
+For example, the \texttt{indexSampleIndexablePojos()} method is a test case that creates an instance of each indexable parent class and performs a query that returns all documents representing these instances. This test succeeds if all created documents are returned by the query.
+
+\subsection{LinkedInIndexingTest.java}
+
+This test case contains JUnit tests that check the correct behavior of manipulation with received LinkedIn articles via the LinkedIn REST API.
 
 \section{UI Tests (Selenium)}
 

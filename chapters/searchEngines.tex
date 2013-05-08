@@ -1,4 +1,13 @@
 \chapter{Available Search Engines}
+\label{chap:engines}
+
+% http://www.sigir.org/forum/2012D/p095.pdf?searchterm=lucene
+
+% http://stackoverflow.com/questions/737275/comparison-of-full-text-search-engine-lucene-sphinx-postgresql-mysql
+
+% http://php.vrana.cz/fulltextove-vyhledavani-sphinx.php
+
+% http://beerpla.net/2009/09/03/comparison-between-solr-and-sphinx-search-servers-solr-vs-sphinx-fight/
 
 According to the comparisons of fulltext search engines in \cite{MiddletonBaeza} and \cite{SinghSearchEngines}, there are several reasonable options to choose from. 
 Unfortunately, there is not enough comparative benchmarks on performance of search engines. Available comparisons are often not so objective since, for example, only the default settings of search engines are used in the tests or just one use case is applied
@@ -9,6 +18,7 @@ All these experiments showed, however, that database fulltext search possibiliti
 
 In the following paragraphs the reader can grasp a basic overview on several full text search engines which are considered to be fairly
 performant and usable for common full text search scenarios.
+
 
 \section{Indri}
 
@@ -99,20 +109,20 @@ parallel using multiple machines.
 There are currently no ports to other languages available, so the full text search, when using Zettair, must be implemented in C.
 
 
+
 \section{Lucene-based Search Solutions}
+\label{sec:luceneBasedSolutions}
 
 Popularity of Lucene is reflected in the existence of several search solutions which are based on this search library.
 Because Lucene itself as a search library provides the core functionality, i.e. indexing and searching documents, its direct integration in applications without any additional enhancements can be cumbersome in the most common use cases.
 Unless there are special requirements involving access to low-level APIs of Lucene, opting for the already proved search solutions is recommended [zdroje ze SO???].
-
-Among the things the solutions have in common is easier integration with an existing application and overall ease of their use when compared with Lucene. 
-However, the concrete usage of these search solutions, which are described below in more detail, strongly depends on the current architecture and requirements.
 
 The solutions built on top of Lucene can be divided into \textit{search tools} and \textit{search servers}. 
 Search tools extend Lucene in a specific way to cover the problem domain and can be embedded to an application in a form of a library. 
 They are usually dependent on other technologies which must be included in the target application. 
 A widely used example of such search tool is \textit{Hibernate Search}.
 Search servers, on the other hand, are fully independent standalone applications which communicate with the application typically by using the HTTP protocol. The representatives of this category are \textit{Solr} and \textit{ElasticSearch}.
+
 
 \subsubsection{Hibernate Search}
 
@@ -126,6 +136,7 @@ By default, Hibernate Search automatically updates Lucene index after an object 
 In order to achieve indexing of Hibernate entities, created model classes must be enriched of specific Hibernate Search annotations for full text search purposes.
 Apart from annotating the entities that should be indexed, no extra configuration is needed. 
 
+
 \subsubsection{Solr}
 
 Solr \cite{SolrHome} is an open source search server built on top of Lucene which runs within a servlet container such as Jetty or Tomcat.
@@ -133,10 +144,12 @@ Because it can be considered as a Lucene extension, most of the Lucene terminolo
 Unlike Lucene, document fields have to be defined in the application schema file.
 
 Solr extends Lucene by providing many useful features related to full text search, e.g. hit highlighting,
-faceted search, rich document handling or the did you mean feature, just to name a few. 
+faceted search, rich document handling or the did-you-mean feature, just to name a few. 
 Since Solr runs as a separate process, it communicates with applications via HTTP requests, which represent query data, and HTTP responses, representing search results found in the index, by exposing its REST-like API. 
 This technology is configuration-driven and in some cases everything can be set up with no need of writing a single line of Java code. 
 
+
 \subsubsection{ElasticSearch}
+%DODELAT
 
 Elastic Search \cite{ElasticSearchHome} is another promising young technology build on Lucene, designed from its early beginnings as a highly scalable solution suitable for big data.

@@ -2,6 +2,7 @@
 \usepackage[pdftex]{graphicx}
 \usepackage{pslatex}
 \usepackage{comment}
+\usepackage[english]{babel}
 \usepackage[scaled=1.0]{helvet}
 \usepackage[utf8]{inputenc}
 \usepackage{blindtext}
@@ -11,32 +12,83 @@
 \usepackage{url}
 \usepackage{titlesec}
 \usepackage[T1]{fontenc}
+\usepackage{lmodern} % vypada s tim fakt cool
 \usepackage{epstopdf}
 \usepackage{microtype}
 \usepackage{color}
 \usepackage{pifont}
 
+\usepackage{titling}
+
 \usepackage{listings}
-\lstset{ %
-language=XML,                % choose the language of the code
-basicstyle=\small\ttfamily,        % the size of the fonts that are used for the code
-basewidth=0.51em,
-stringstyle=\ttfamily\color[rgb]{0.727,0.626,0.941},
-numbers=left,                   % where to put the line-numbers
-numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
-stepnumber=1,                   % the step between two line-numbers. If it is 1 each line will be numbered
-numbersep=10pt,                  % how far the line-numbers are from the code
-backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
-showspaces=false,               % show spaces adding particular underscores
-showstringspaces=false,         % underline spaces within strings
-showtabs=false,                 % show tabs within strings adding particular underscores
-frame=single,           % adds a frame around the code
-tabsize=2,          % sets default tabsize to 2 spaces
-captionpos=b,           % sets the caption-position to bottom
-columns=fullflexible,
-aboveskip={1.5\baselineskip},
-breaklines=true,        % sets automatic line breaking
-breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
-escapeinside={\%*}{*)}          % if you want to add a comment within your code
-}
+\usepackage[labelfont=bf]{caption}
+\usepackage{courier}
+
+\lstset{
+         basicstyle=\footnotesize\ttfamily, % Standardschrift
+         numbers=left,           	    % Ort der Zeilennummern
+         numberstyle=\footnotesize,          % Stil der Zeilennummern
+         stepnumber=1,                   % the step between two line-numbers. If it is 1 each line will be numbered
+				 numbersep=10pt,                  % how far the line-numbers are from the code
+         tabsize=2,                  % Groesse von Tabs
+         extendedchars=true,         %
+         breaklines=true,            % Zeilen werden Umgebrochen
+				 prebreak=\mbox{\tiny$\hookleftarrow$},
+         %keywordstyle=\color{black}\textbf,
+				 keywordstyle=\color{black}\ttfamily,
+    		 frame=tb,         
+ %        keywordstyle=[1]\textbf,    % Stil der Keywords
+ %        keywordstyle=[2]\textbf,    %
+ %        keywordstyle=[3]\textbf,    %
+ %        keywordstyle=[4]\textbf,   \sqrt{\sqrt{}} %
+         stringstyle=\color{black}\ttfamily, % Farbe der String
+         showspaces=false,           % Leerzeichen anzeigen ?
+         showtabs=false,             % Tabs anzeigen ?
+         %xleftmargin=17pt,
+         %framexleftmargin=17pt,
+         %framexrightmargin=5pt,
+         %framexbottommargin=4pt,
+         backgroundcolor=\color[rgb]{0.93,0.93,0.93},  
+         showstringspaces=false      % Leerzeichen in Strings anzeigen ?        
+ }
+ \lstloadlanguages{% Check Dokumentation for further languages ...
+         %[Visual]Basic
+         %Pascal
+         %C
+         %C++
+         %XML
+         %HTML
+         Java
+ }
+    %\DeclareCaptionFont{blue}{\color{blue}} 
+
+  %\captionsetup[lstlisting]{singlelinecheck=false, labelfont={blue}, textfont={blue}}
+  
+\DeclareCaptionFont{blackas}{\color{black}}
+\DeclareCaptionFont{black}{\color{black}\textbf}
+% \DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\captionsetup[lstlisting]{labelfont=black, singlelinecheck=false, margin=0pt}
+
+%\lstset{ %
+%language=XML,                % choose the language of the code
+%basicstyle=\small\ttfamily,        % the size of the fonts that are used for the code
+%basewidth=0.51em,
+%stringstyle=\ttfamily\color[rgb]{0.227,0.226,0.341},
+%numbers=left,                   % where to put the line-numbers
+%numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+%stepnumber=1,                   % the step between two line-numbers. If it is 1 each line will be numbered
+%numbersep=10pt,                  % how far the line-numbers are from the code
+%backgroundcolor=\color[rgb]{0.8,0.8,0.8},  % choose the background color. You must add \usepackage{color}
+%showspaces=false,               % show spaces adding particular underscores
+%showstringspaces=false,         % underline spaces within strings
+%showtabs=false,                 % show tabs within strings adding particular underscores
+%frame=single,           % adds a frame around the code
+%tabsize=2,          % sets default tabsize to 2 spaces
+%captionpos=b,           % sets the caption-position to bottom
+%columns=fullflexible,
+%aboveskip={1.5\baselineskip},
+%breaklines=true,        % sets automatic line breaking
+%breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
+%escapeinside={\%*}{*)}          % if you want to add a comment within your code
+%}
 

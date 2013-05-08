@@ -1,0 +1,306 @@
+\chapter{Index Design}
+\label{chapter:indexDesign}
+% z pozadavku vytvorit strukturu dokumentu uchovavanych v indexu, 
+% zminit volbu jednoho indexu misto nekolika indexu
+
+The aim of the following chapter is to design the index structure for the data to be searched. 
+Based on the described limitations and collected requirements from Chapter \ref{chap:analysis}, the index structure is proposed and its advantages and disadvantages are mentioned in the text. 
+
+
+% patri spis do teorie!!!
+% <--
+%	\section{Index Structure Specifics}
+%
+% Compared to traditional relational databases, the Solr index lacks the possibility to create more structured content. 
+% An analogy to the index would be a single large table in the relational world. 
+%As a relational table, index structure is flat and does not allow nesting documents to form hierarchical structures as in the case of document databases like MongoDB.
+
+% ...Index ma plochou strukturu, neumoznuje vnorovat dokumenty
+% do sebe, jako v pripade dokumentovych databazi. lze vsak imitovat
+% relaci 1:N pomoci multivalued fields, ktere jsou ulozeny ve forme
+% pole.
+% -->
+
+% http://stackoverflow.com/questions/5584857/solr-documents-with-child-elements
+
+% http://wiki.apache.org/solr/SchemaXml#Dynamic_fields
+
+% http://wiki.apache.org/solr/ExtendedDisMax
+
+% http://people.apache.org/~yonik/presentations/solr4_nosql_apachecon_2012.pdf
+
+% http://stackoverflow.com/questions/5800762/what-is-the-use-of-multivalued-field-type-in-solr
+
+\section{Identifying domain entities}
+
+To design a document structure properly, it is crucial to know what kind of information is going to be searched and what should be displayed to a user.
+This is the reason why the EEG/ERP Portal application's domain model must be explored first.
+
+Based on the search requirements, the full text search functionality will be oriented on searching and displaying information about five main domain entities: articles, experiments, persons, research groups and scenarios.
+
+
+\subsection{Relation to POJO classes}
+
+The corresponding POJO representations of the domain entities are, however, logically split into multiple POJO classes.
+Nevertheless, there are several classes which contain the core data belonging to their representing domain entities.
+These POJO classes are of our main interest and will be considered parent classes in the full text search context.
+There exist one-to-one or one-to-many associations among parent POJO classes and some other, child classes.  
+The Solr documents created from the class hierarchy, which is identified in the text below, will mainly consist of textual data.
+In practice, it means that mostly \texttt{String} object fields will be stored in the documents.
+
+The following list captures relations between entities of the domain model and their respective parent POJO objects:
+
+\begin{itemize}
+	\item \textit{article} - Articles are represented by the \texttt{Article} class. 
+	It contains the \texttt{title} and \texttt{text} string fields  that hold values of article title and its text, respectively. 
+	Articles can be commented on, so each article may have one or more article comments associated. Text of the comments themselves is contained in the \texttt{ArticleComment} instances. 
+	
+	\item \textit{experiment} - The \texttt{Experiment} class has the \texttt{environmentNote} field to describe the experiment environment.
+	Apart from this field, it also refers to related \texttt{Weather}, \texttt{Disease}, \texttt{DataFile}, \texttt{Hardware} and \texttt{Software} classes that include information about weather, diseases of a tested subject, related data files, and used hardware and software during an experiment, respectively.
+	
+	\item \textit{person} - The \texttt{Person} class contains a person's name, surname and a note about the person. Although it also has associations to other classes, it is not necessary to include them for indexing and searching purposes.
+	
+	\item \textit{research group} - The \texttt{ResearchGroup} class keeps a name, title and description of a research group and as in case of the \texttt{Person} class, its structure matches the structure of its domain entity, so no other referenced classes are needed.
+	
+	\item \textit{scenario} - The class \texttt{Scenario} contains its name, title and description. The class itself corresponds to its domain entity.
+\end{itemize}
+
+
+After inspecting the aforementioned classes, it turns out that there are several fields that most of the objects have in common.
+For example, many POJO classes possess the \texttt{title} and \texttt{description} fields.
+It is also worth noticing that the class fields \texttt{description}, \texttt{text} and \texttt{note} have a very similar meaning in this context.
+This repeatability and similarity of class fields can be conveniently used to create a single type of a Solr document.
+
+On the other hand, there are several class fields that are distinctive only for a few or for a single domain entity (such as the \texttt{temperature} field in the \texttt{Experiment} class or the \texttt{type} field in the \texttt{Hardware} class to specify parameter data type attribute).
+% nastesti to nijak moc nevadi, protoze prazdne fieldy v dokumentech nezabiraji zadne misto - doplnit
+
+\subsection{Single vs. Multiple Solr Cores}
+% Zduvodnit, proc jsme se rozhodli pro jedno jadro - podobny data
+
+In this case it is necessary to decide whether it is better to create one universal document type and use a single Solr core 
+or to use multiple Solr cores for each of the domain classes, each managing its own document type.
+
+Both alternatives have their strengths and weaknesses. 
+If separated searching of multiple document types is expected (e.g. in case of different applications using the same Solr server instance or having multiple language mutation of an application) then it is more reasonable to use multiple cores with different schemas, since the core can run independently on each other.
+To support searching by using a single search box, the final choice depends strongly on data heterogeneity, i.e. how much different the data in the document types are. According to the Solr wiki \cite{Solr:SchemaDesign}, \textit{``The more heterogeneous (different kinds of data) you have in one field or in one index, the less useful it is.''}
+
+Another factor worth considering is the expected total number of documents. Due to performance gains, it is in practice recommended to split documents to multiple cores if their number stored in a single index exceeds one million [ZDROJ].
+
+In the EEG/ERP Portal, the are some fields of different entities that can be put together under one document field.
+Furthermore, the document types tend to be similar % (overall similarity of the document types)
+and the total number of documents is not expected to be over one million.
+Thus, the choice of having a single core, meaning using a single index, will be preferred.
+
+
+\section{Ensuring Document Uniqueness}
+% je tu problem s unikatnosti id dokumentu, je to potreba resit. jak se to promitne ve schematu
+
+When storing different types of documents under a single index, a problem of document uniqueness arises. 
+Although a relational database record can be, for example, uniquely identified by its primary key and a source table, its information about the source table is lost after its corresponding Lucene/Solr document is created.
+Hence, the original uniqueness is lost as there might be documents created from records coming from different tables and having the same id. 
+This is why a custom mechanism ensuring a unique id for each document was implemented, as can be read in chapter \ref{chap:implementation}.
+
+The need of document uniqueness is reflected on the document level as well.
+The following fields related to unique identification of documents were added in the Solr schema file:
+
+\begin{itemize}
+	\item \textit{id} - The purpose of the \texttt{id} field is to keep the original object ID value.
+	\item \textit{class} - Identifies a type of an indexed document. There are two reasons of having this field. First, in combination with the \texttt{id} field value, it provides a means of identification of a specific object. Therefore, a link to the found record in the application logic can be created. Second, the \texttt{class} field value can be used for displaying a category of a found result to a user as well as for enabling categorization of search results.
+	\item \textit{uuid} - This field serves as a unique identifier for each document in the index.
+	It consists of two concatenated parts. The first part is the whole class name of an indexed object, the second part is the actual ID value of the object. To provide an example, the \texttt{uuid} value of an article with ID 20 is \texttt{cz.zcu.kiv.eegdatabase.data.pojo.Article20}. 
+\end{itemize}
+
+These Solr fields were added to the \texttt{schema.xml} configuration file, whose incriminated lines are displayed in Listing \ref{listing:identificationConf}.
+
+\begin{lstlisting}[language=XML, caption={Configuration of Identification Fields in the Solr Schema.}, label={listing:identificationConf}]
+<field name="uuid" type="string" indexed="true" stored="true" required="true" multiValued="false" />         
+<field name="id" type="int" indexed="false" stored="true" required="true" multiValued="false" /> 
+<field name="class" type="string" indexed="true" stored="true" omitNorms="true"/>
+\end{lstlisting}
+
+\section{Proposed Document Structure}
+
+Based on the object hierarchy and fields these objects contain, the following document fields were configured:
+
+
+\begin{itemize}
+	\item \texttt{title} - Title of a parent object.
+	
+	\item \texttt{text} - A longer textual sequence, such as description or a note, of a parent object.
+	
+	\item \texttt{name} - It contains a person's name (both first name and last name).
+	
+	\item \texttt{source} - This field determines a source of indexed documents. It can be set either to \texttt{linkedin}, if a LinkedIn article was indexed, or to \texttt{database}, if a POJO instance was indexed. 
+	
+	\item \texttt{temperature} - Stores temperature during an experiment.
+	
+	\item \texttt{param\_datatype} - It represents a data type or another type field of a parent POJO class.
+	
+	\item \texttt{file\_mimetype} - Stores \texttt{mimetype} values of parent POJOs. In this case, it concerns the \texttt{Scenario} class.
+	
+	\item \texttt{child\_title} - It is a multivalued field which stores all titles of child objects.
+	
+	\item \texttt{child\_text} - This field is analogous to the \texttt{text} field. 
+	The difference is that it is multivalued and stores all textual values of child objects.
+	
+	\item \texttt{child\_param\_datatype} - It is used for the same reasons as the \texttt{param\_datatype} field, except that it is used for child object values.
+	% dalsi asi nejsou pouzity
+	
+\end{itemize}
+
+% Because of the length of the part of schema field definitions, all field definitions can be found in Attachment 1.
+
+% UVEST LISTING DO PRILOHY, JESTLI VUBEC
+
+%\begin{lstlisting}[language=XML, caption={Solr Document Structure.}, label={listing:solrDocStructure}]
+%<field name="title" type="text_general" indexed="true" stored="true" omitNorms="false"/>
+%<field name="temperature" type="int" indexed="true" stored="true" omitNorms="true"/>
+%<field name="text" type="text_general" indexed="true" stored="true" omitNorms="false"/>
+%<field name="file_mimetype" type="string" indexed="true" stored="true" omitNorms="false"/>
+%<field name="param_datatype" type="string" indexed="true" stored="true" omitNorms="false"/>
+%<field name="source" type="string" indexed="true" stored="true" omitNorms="false"/>
+%<field name="name" type="string" indexed="true" stored="true" omitNorms="false"/>
+%<field name="child_temperature" type="int" indexed="true" stored="true" multiValued="true" omitNorms="true"/>
+%<field name="child_name" type="string" indexed="true" stored="true" multiValued="true" omitNorms="false"/>
+%<field name="child_title" type="string" mindexed="true" stored="true" multiValued="true" omitNorms="false"/>
+%<field name="child_text" type="text_general" indexed="true" stored="true" multiValued="true" omitNorms="false"/>
+%<field name="child_file_mimetype" type="string" indexed="true" stored="true" multiValued="true" omitNorms="false"/>
+%<field name="child_temperature" type="int" indexed="true" stored="true" multiValued="true" omitNorms="true"/>
+%<field name="child_param_datatype" type="string" indexed="true" stored="true" multiValued="true" omitNorms="false"/>
+%\end{lstlisting}
+
+
+\section{Result Highlighting}
+
+In order to enable highlighting of search results, the \texttt{solrconfig.xml} configuration file had to be modified.
+This modification in a form of default highlighting settings is shown in Listing \ref{listing:highlightConf}.
+The fields that will be highlighted are surrounded by the \texttt{str} tag with the \texttt{hl.fl} value of its \texttt{name} attribute (see line 5 in Listing \ref{listing:highlightConf}).
+
+For more information about the used configuration properties, see Chapter \ref{chap:analysis} or refer to the official Solr documentation at [ZDROJ].
+
+
+\begin{lstlisting}[language=XML, caption={Highlighting configuration.}, label={listing:highlightConf}]
+<requestHandler name="/select" class="solr.SearchHandler">
+	<lst name="defaults">
+		...
+		<str name="hl">true</str>
+		<str name="hl.fl">title text name source child_title child_text child_param_datatype</str>
+		<str name="hl.requireFieldMatch">false</str>
+		<str name="hl.usePhraseHighlighter">true</str>
+		<str name="hl.highlightMultiTerm">true</str>
+		<str name="hl.snippets">10</str>
+		<str name="f.text.hl.snippets">5</str>
+		<str name="hl.fragSize">100</str>
+		<str name="hl.mergeContiguous">true</str>
+		<str name="hl.encoder">html</str>
+		<str name="hl.simple.pre">&lt;b&gt;</str>
+		<str name="hl.simple.post">&lt;/b&gt;</str>
+		<str name="f.title.hl.alternateField">title</str>
+		<str name="f.text.hl.alternateField">text</str>
+		<str name="f.name.hl.alternateField">name</str>
+		<str name="f.source.hl.alternateField">source</str>
+  </lst>
+	...
+</requestHandler>
+\end{lstlisting}
+
+\section{Autocomplete Support}
+
+In order to enable the autocomplete functionality, an extra document field needed to be added.
+The field \texttt{autocomplete} contains all searched phrases which are copied from selected source fields. It is done by utilizing the \texttt{copyField} element for all affected source fields. The excerpt from the schema.xml configuration file can be seen in  Listing \ref{listing:autocompleteConf} below.
+
+\begin{lstlisting}[language=XML, caption={Configuration of Autocomplete.}, label={listing:autocompleteConf}]
+<field name="autocomplete" type="text_autocomplete" indexed="true" stored="true" multiValued="true" />
+...
+<copyField source="title" dest="autocomplete"/>
+<copyField source="name" dest="autocomplete"/>
+<copyField source="child_title" dest="autocomplete"/>
+<copyField source="file_mimetype" dest="autocomplete"/>
+<copyField source="param_datatype" dest="autocomplete"/>
+<copyField source="source" dest="autocomplete"/>
+\end{lstlisting}
+
+\subsection{Autocomplete Field}
+% Vytvoreni typu pro autocomplete
+
+A new Solr field designed for text completion was created.
+The configuration of the autocomplete field type can be seen in Listing \ref{listing:autocompFieldType}:
+The tokens stored in this field are processed both in index and query phase.
+Both phases have one tokenizer and one filter class in common.
+First, the usage of \texttt{KeywordTokenizerFactory} which, according to the Lucene/Solr documentation, \textit{``Emits the entire input as a single token.''} ensures treating stored field data as a single phrase.
+To prevent letter case mismatches, \texttt{LowerCaseFilterFactory} was applied.
+
+
+During the search phase, the terms related to autocomplete are additionally made by using Solr \texttt{EdgeNGramFilterFactory} class. This class creates n-grams for an input term.
+Based on these n-gram terms, the target phrase will be suggested.
+The minimal and maximal n-gram lengths are set to 2 and 50, respectively, which allows meaningful phrase suggestions up to the total string length of 50 characters.
+In practice, it means that, for example, the filter output for the input string \textit{``hello''} will be 4 tokens: \textit{``he''}, \textit{``hel''}, \textit{``hell''}, and \textit{``hello''}. By typing one of these n-gram tokens, the original \textit{``hello''} string will be suggested.
+
+\begin{lstlisting}[language=XML, caption={Autocomplete Field Type.}, label={listing:autocompFieldType}]
+<fieldType name="text_autocomplete" class="solr.TextField" positionIncrementGap="100">
+	<analyzer type="index">
+		<tokenizer class="solr.KeywordTokenizerFactory"/>
+		<filter class="solr.LowerCaseFilterFactory"/>
+		<filter class="solr.EdgeNGramFilterFactory" minGramSize="2" maxGramSize="50" />
+	</analyzer>
+	<analyzer type="query">
+		<tokenizer class="solr.KeywordTokenizerFactory" />
+		<filter class="solr.LowerCaseFilterFactory"/>
+	</analyzer>
+</fieldType>
+\end{lstlisting}
+
+%It is important to keep in mind that documents stored in the index store information that are to be searched.
+%The documents, in fact, capture information, that are not only searched on, but also expected to be displayed.
+%It means that it is essential to know the specifics and purpose of full text search in a given domain properly.
+%This fact is especially important for document indexation, because documents stored in the index have certatin specifics and limitations that are discussed in following paragraphs.
+
+\subsection{Using Edismax Parser}
+
+The default query parser set in the Solr configuration is \texttt{LuceneQueryParser}. 
+Although it offers a lot of possibilities, any Solr syntax mistakes result in \texttt{ParseEx\-ception}. 
+To avoid checking every potential state which leads to a syntax error, such as an odd number of parentheses, it is recommended to use \texttt{Extended\-Dismax\-Parser}.
+This parser is more tolerant to syntax errors and guarantees that an exception will not be thrown in most of the cases. % almost never thrown
+Instead, an empty search result set is returned.
+Compared to the default parser, its performance is generally the same [ZDROJ]. % http://solr.pl/en/2010/07/14/solr-and-phrasequery-phrase-bonus-in-query-stage/ 
+The Edismax parser is therefore an appropriate choice for common search use cases since it offers the same query possibilities as the default parser. %using Boolean syntax and wildcard search is enabled.
+Listing \ref{listing:edismaxConf} depicts the lines responsible for configuration of Edismax parser.
+
+\begin{lstlisting}[language=XML, caption={Configuration of the Edismax parser.}, label={listing:edismaxConf}]
+<requestHandler name="/select" class="solr.SearchHandler">
+	<lst name="defaults">
+		...
+		<str name="defType">edismax</str>
+		...
+	</lst>
+<\requestHandler>
+\end{lstlisting}
+
+
+
+%Reprezentaci dokumentu lze vyresit nekolika zpusoby:
+%\begin{itemize}
+%\item denormalization of database data
+%\item Od Solr 4 podpora join funkce. Dost omezene oproti SQL joinu
+%\item nekolik po sobe nasledujicich dotazu, nasledujici dotaz
+%bere jako vstup vysledky predchoziho dotazu.
+%\end{itemize}
+%
+%\subsection{Eventual consistency}
+%
+%za pouziti real-time indexovani. po insertu, updatu, deletu dochazi
+%k indexaci prislusneho dokumentu.
+%
+%Sekvence insert/update/delete a indexace neprobiha atomicky jako transakce.
+%Pri chybe muze dojit k nekonzistentnimu stavu (data ulozena,
+%indexovana -> OK; data ulozena, ale neindexovana -> nebudou vyhledatelna;
+%data neulozena, indexovana -> nalezeny neodpovidajici nebo neexistujici
+%vysledky; data neulozena, neindexovana -> DB rollback, puvodni
+%zaznam lze vyhledat. 
+%Osetreni konzistence v techto pripadech byva netrivialni zalezitost, casto realne resitelna jen castecne. 
+%Beznym resenim nekonzistentnich stavu je je ignorovat, protoze nakonec budou po dalsi naplnnovani reindexaci odstraneny. 
+%Tim je dosazeno. tzv. eventual consistency.
+
+% vyhodit
+% \chapter{Fulltext Search Design}
+
