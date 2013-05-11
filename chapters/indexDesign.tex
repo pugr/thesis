@@ -259,10 +259,10 @@ In practice, it means that, for example, the filter output for the input string 
 
 The default query parser set in the Solr configuration is \texttt{LuceneQueryParser}. 
 Although it offers a lot of possibilities, any Solr syntax mistakes result in \texttt{ParseEx\-ception}. 
-To avoid checking every potential state which leads to a syntax error, such as an odd number of parentheses, it is recommended to use \texttt{Extended\-Dismax\-Parser}.
+To avoid checking every potential state which leads to a syntax error, such as an odd number of parentheses, it is recommended to use \texttt{Extended\-Dismax\-Parser} \cite{Solr3EnterpriseSS}.
 This parser is more tolerant to syntax errors and guarantees that an exception will not be thrown in most of the cases. % almost never thrown
 Instead, an empty search result set is returned.
-Compared to the default parser, its performance is generally the same [ZDROJ]. % http://solr.pl/en/2010/07/14/solr-and-phrasequery-phrase-bonus-in-query-stage/ 
+Compared to the default parser, its performance is generally the same \cite{Solr3EnterpriseSS}. % http://solr.pl/en/2010/07/14/solr-and-phrasequery-phrase-bonus-in-query-stage/ 
 The Edismax parser is therefore an appropriate choice for common search use cases since it offers the same query possibilities as the default parser. %using Boolean syntax and wildcard search is enabled.
 Listing \ref{listing:edismaxConf} depicts the lines responsible for configuration of Edismax parser.
 

@@ -48,7 +48,7 @@ Although the ways to build input Solr documents differ, the principle of indexin
 \end{enumerate}
 
 It is obvious that the steps 2,3 and 4 are common for all kinds of data sources.
-To separate common functionality of indexing from the specialized step during which a Solr document is built, the \textit{Template Method} design pattern was used.
+To separate common functionality of indexing from the specialized step during which a Solr document is built, the \textit{Template Method} design pattern \cite{GOF:DesignPatterns} was used.
 By applying this design pattern, the class hierarchy depicted in Figure \ref{fig:indexersUml} was implemented.
 
 \begin{figure}[h]

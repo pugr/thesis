@@ -38,6 +38,8 @@ The \texttt{facetAllTest()} test passes if the number of documents in each categ
 
 \subsection{IndexingServiceTest.java}
 
+This class contains tests of methods of the \texttt{IndexingService} class.
+
 \subsection{IndexingTest.java}
 
 It contains methods that test indexing created sample documents and their removal from the Solr index.
@@ -45,9 +47,20 @@ For example, the \texttt{indexSampleIndexablePojos()} method is a test case that
 
 \subsection{LinkedInIndexingTest.java}
 
-This test case contains JUnit tests that check the correct behavior of manipulation with received LinkedIn articles via the LinkedIn REST API.
+This test class contains JUnit tests that check the correct behavior of manipulation with received LinkedIn articles via the LinkedIn REST API.
 
-\section{UI Tests (Selenium)}
+\section{Integration Tests (Selenium)}
 
 These tests were created to simulate actions of users using the full text search of EEG/ERP Portal. 
+The tests deal with:
+
+% Popis testu
+\begin{itemize}
+	\item checking the presence of web elements, such as the search panel and the search button in the main menu
+	\item testing the autocomplete box
+	\item testing obtaining any search results for a given search query
+	\item checking that, for a search query returning no results, a corresponding message appears and no results are shown.
+\end{itemize}
+
+% TODO nefungujou Selenium testy
 

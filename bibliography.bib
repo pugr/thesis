@@ -48,6 +48,17 @@
     year = {1992}
 }
 
+% Rijsbergen - IR (info o probabilistic modelu)
+@book{van1979information,
+  title={Information retrieval},
+  author={Van Rijsbergen, C.J.},
+  isbn={9780408709293},
+  lccn={78040725},
+  url={http://books.google.cz/books?id=t-pTAAAAMAAJ},
+  year={1979},
+  publisher={Butterworths}
+} 
+
 
 % Relational databases vs. IR systems - case study.
 @Proceedings{relDBvsIRcaseStudy,
@@ -178,6 +189,26 @@ year={2005},
 pages={225-233},
 doi={10.1109/P2P.2005.7},}
 
+% Zminka o nevyhodach bool modelu
+@book{Salton:1989:ATP:77013,
+ author = {Salton, Gerard},
+ title = {Automatic text processing: the transformation, analysis, and retrieval of information by computer},
+ year = {1989},
+ isbn = {0-201-12227-8},
+ publisher = {Addison-Wesley Longman Publishing Co., Inc.},
+ address = {Boston, MA, USA},
+} 
+
+% info o term weights, inversed document frequency, vzorce, vector space
+@book{hiemstra2001using,
+  title={Using Language Models for Information Retrieval},
+  author={Hiemstra, D.},
+  isbn={9789075296051},
+  series={CTIT Ph.D. thesis series},
+  url={http://books.google.cz/books?id=J\_TRtgAACAAJ},
+  year={2001},
+  publisher={Taaluitgeverij Neslia Paniculata}
+} 
 
 % ------------ Search Engines ------------
 
@@ -203,6 +234,26 @@ doi={10.1109/P2P.2005.7},}
 	note = "[Online; accessed: 4-December-2012]"
 }
 
+@book{ali2011sphinx,
+  title={Sphinx Search Beginner's Guide},
+  author={Ali, A.},
+  isbn={9781849512558},
+  url={http://books.google.cz/books?id=bf3YPgNxKY0C},
+  year={2011},
+  publisher={Packt Publishing, Limited}
+}
+
+% Intro to search with Sphinx
+@book{aksyonoff2011introduction,
+  title={Introduction to Search with Sphinx: From Installation to Relevance Tuning},
+  author={Aksyonoff, A.},
+  isbn={9780596809553},
+  lccn={2011377906},
+  url={http://books.google.cz/books?id=z\_FUVJwneIQC},
+  year={2011},
+  publisher={O'Reilly Media, Incorporated}
+} 
+
 % Indri Home page.	
 @Misc{IndriHome,
 	title = "Indri Homepage",
@@ -216,6 +267,33 @@ doi={10.1109/P2P.2005.7},}
 	howpublished = "Available at \url{http://lucene.apache.org/}",
 	note = "[Online; accessed: 4-December-2012]"
 }
+
+
+%Lucene Scoring.
+@Misc{LuceneScoring,
+	title = "Apache Lucene - Scoring",
+	howpublished = "Available at \url{http://lucene.apache.org/core/old_versioned_docs/versions/3_2_0/scoring.html}",
+	note = "[Online; accessed: 27-April-2013]"
+}
+
+
+%Edismax query parser.
+@Misc{Edismax,
+	title = "Extended dismax query parser",
+	howpublished = "Available at \url{https://issues.apache.org/jira/browse/SOLR-1553}",
+	note = "[Online; accessed: 19-April-2013]"
+}
+
+
+% Lucene in Action
+@book{McCandless:2010:LAS:1893016,
+ author = {McCandless, Michael and Hatcher, Erik and Gospodnetic, Otis},
+ title = {Lucene in Action, Second Edition: Covers Apache Lucene 3.0},
+ year = {2010},
+ isbn = {1933988177, 9781933988177},
+ publisher = {Manning Publications Co.},
+ address = {Greenwich, CT, USA},
+} 
 
 %Sphinx Home page.
 @Misc{SphinxHome,
@@ -258,6 +336,30 @@ doi={10.1109/P2P.2005.7},}
 	howpublished = "Available at \url{http://www.elasticsearch.org/}",
 	note = "[Online; accessed: 25-April-2013]"
 }
+
+%ElasticSearch-Solr Comparison
+@Misc{ElasticSearchComparisonSolr,
+	title = "Solr or ElastiSearch?",
+	howpublished = "Available at \url{http://www.searchtechnologies.com/elasticsearch-solr-lucene.html}",
+	note = "[Online; accessed: 12-Dec-2012]"
+}
+
+%ElasticSearch-Solr Another Comparison
+@Misc{ElasticSearchComparisonSolrAnother,
+	title = "Why we chose Solr 4.0 instead of ElasticSearch",
+	howpublished = "Available at \url{http://www.sentric.ch/blog/why-we-chose-solr-4-0-instead-of-elasticsearch}",
+	note = "[Online; accessed: 25-Jan-2013]"
+}
+
+% Comparison of search engines (Sphinx extensibility info)
+@Misc{esSphinxLuceneSolXapianWhich,
+	title = "ElasticSearch, Sphinx, Lucene, Solr, Xapian. Which fits for which usage?",
+	howpublished = "Available at \url{http://stackoverflow.com/questions/2271600/elasticsearch-sphinx-lucene-solr-xapian-which-fits-for-which-usage}",
+	note = "[Online; accessed: 28-Oct-2012]"
+}
+
+
+
 
 @Misc{XapianIndexSize,
 	author = {Olly Betts},
@@ -413,34 +515,17 @@ ISSN={2157-5525},
 		 computing",
 }
   
-% TODO informace o knizce
 % Solr 3 Enterprise Search Server.
 @Book{Solr3EnterpriseSS,
-	author =	"David Smiley and Eric (David Eric) Pugh and James
-		 Brady and Jerome Eteve",
-	title =	"{Solr 1.4 Enterprise Search Server}: enhance your
-		 search with faceted navigation, result highlighting,
-		 fuzzy queries, ranked scoring, and more",
-	publisher =	"Packt Publishing",
-	address =	"Birmingham, UK",
-	pages =	"vii + 317",
-	year = 	"2009",
-	ISBN = 	"1-84719-588-1",
-	isbn-13 =	"978-1-84719-588-3",
-	LCCN = 	"TK5105.885.S65 S65 2009eb",
-	bibdate =	"Thu Apr 15 14:49:12 MDT 2010",
-	bibsource =	"http://www.math.utah.edu/pub/tex/bib/java2000.bib;
-		 library.mit.edu:9909/mit01",
-	acknowledgement = "Nelson H. F. Beebe, University of Utah, Department
-		 of Mathematics, 110 LCB, 155 S 1400 E RM 233, Salt Lake
-		 City, UT 84112-0090, USA, Tel: +1 801 581 5254, FAX: +1
-		 801 581 4148, e-mail: \path|beebe@math.utah.edu|,
-		 \path|beebe@acm.org|, \path|beebe@computer.org|
-		 (Internet), URL:
-		 \path|http://www.math.utah.edu/~beebe/|",
-	subject =	"Web search engines; programming; client/server
-		 computing",
+	title={Apache Solr 3 Enterprise Search Server: Enhance Your Search with Faceted Navigation, Result Highlighting, Relevancy Renked Sorting, and More},
+  author={Smiley, D. and Pugh, D.E.},
+  isbn={9781849516068},
+  series={Community experience distilled},
+  url={http://books.google.cz/books?id=VglJmAEACAAJ},
+  year={2011},
+  publisher={Packt Publishing, Limited}
 }
+
 
 % Implementation of a search engine based on Solr.
 @Dissertation{SolrSearchEngImpl,

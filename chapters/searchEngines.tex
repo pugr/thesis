@@ -37,77 +37,58 @@ for short queries, index size and performance.
 
 \section{Lucene}
 
-Lucene \cite{LuceneHome} is an open source Java-based search
-library. It can enrich applications by its ability to index data and
-search over them. These two main items form what is commonly reffered
-to as Lucene core. Apart from the core, its latest version comprises
-useful features related to full text search problems (e.g. result
-highlighting). Lucene is highly modularized and its API enables a
-user to extend its functionality relatively easily {[}citace{]}. 
+Lucene \cite{LuceneHome} is an open source Java-based search library. 
+It can enrich applications by its ability to index data and search over them. 
+These two main items form what is commonly reffered to as Lucene core. 
+Apart from the core, its latest version comprises useful features related to full text search problems (e.g. result highlighting). 
+Lucene is highly modularized and its API enables a user to extend its functionality relatively easily \cite{McCandless:2010:LAS:1893016}. 
 
-It stores its index as files on disk. When the search is made, segments
-of indexes are copied to memory, thus its memory consumption is high
-and mostly fixed. It is important for a Lucene user that index is
-basically a collection of documents 
+It stores its index as files on disk. When the search is made, segments of indexes are copied to memory, thus its memory consumption is high and mostly stable.
 
-According to \cite{MiddletonBaeza,ComparisonLuceneIndri}, it
-belongs to the fastest engines and its performance shines especially
-when querying one- or two-word phrases. Its small size of index it
-creates is also a plus when the lack of memory could be an issue.
-Thanks to its portability and its active development and active and
-numerous community, it has become the leading open source search engine
-used in many successful projects \cite{LuceneWhoUses}.
+According to \cite{MiddletonBaeza,ComparisonLuceneIndri}, it belongs to the fastest engines and its performance shines especially
+when querying one- or two-word phrases. 
+Its small size of index it creates is also a plus when the lack of memory could be an issue.
+Thanks to its portability and its active development and active and numerous community, it has become the leading open source search engine used in many successful projects \cite{LuceneWhoUses}.
 
-The current version of Lucene, Lucene 4.0, ,,represents a significant
-milestone in the development of Lucene due to a number of new features
-and efficiency improvements as compared to previous versions of Lucene.``
-\cite{ApacheLucene4}
+According to its official documentation \cite{LuceneScoring}, 
+\textit{``Lucene scoring uses a combination of the Vector Space Model (VSM) of Information Retrieval and the Boolean model''}.
+The Boolean model is used to filter the documents that are then scored.
+
+The current version of Lucene, Lucene 4.0, \textit{,,represents a significant milestone in the development of Lucene due to a number of new features and efficiency improvements as compared to previous versions of Lucene.``} \cite{ApacheLucene4}
 
 
 \section{Sphinx}
 
-Sphinx \cite{SphinxHome} is an open source search server distributed
-under GPL license. 
-It consists of an indexing tool, which is also reffered to as indexer, and a searching daemon. 
+Sphinx \cite{SphinxHome} is an open source search server distributed under GPL license. 
+It consists of an indexing tool, which is also referred to as indexer, and a searching daemon. 
 Sphinx is written in C++ and is especially designed for indexing database systems (it integrates well with MySQL).
-The reason behind its connection with MySQL DBMS is to enable the scenario when searching data in the database  storing which store too much data to be 
+The reason behind its connection with MySQL RDBMS is to enable efficient full-text search on a large amount of database data \cite{aksyonoff2011introduction}.
 It allows a user to issue queries with SQL-like syntax for indexing the database content and searching in the index.
 Besides database indexing, it also supports an XML format for arbitrary data. 
 Considering results from all found benchmarks involving Sphinx \cite{IndriHome,MiddletonBaeza,BenchmarkLuceneSphinxNewer,BenchmarkMysqlLuceneSphinx}, its indexing speed is quick and its search speed belongs to the fastest ones. 
-It offers API bindings for several platforms/languages, including
-Java. 
-Among its strengths we can name quick installation and deployment
-and a perfect online documentation for an open source project. 
+It offers API bindings for several platforms/languages, including Java. 
+Among its strengths we can name quick installation and deployment and a perfect online documentation for an open source project. 
 Extensibility is quite an issue if our application requires additional features
-{[}citace{]}. 
-It its well-suited for full text database searches on
-a huge amount of documents.
-
+\cite{esSphinxLuceneSolXapianWhich}. 
 
 \section{Xapian}
 
-According to information found on its official website \cite{XapianHome},
-it is an Open Source Search Library written in C++. 
-It provides a user with bindings that allow to use it from a couple of other languages,
-including Java, C\# or Ruby. 
+According to information found on its official website \cite{XapianHome}, it is an open-source search library written in C++ based on a probabilistic retrieval model. 
+It provides a user with bindings that allow to use it from a couple of other languages, including Java, C\# or Ruby. 
 Its index size is generally larger when compared to other search engines, but this extra piece of information contained in the index allows Xapian to delete or update a document in a more correct way. 
 It is done by storing a list of elements in each document in the termlist table\cite{XapianIndexSize}. 
-Its performance is said to be equally good as the one of Lucene {[}citace{]}.
-
+The benchmarks in \cite{SinghSearchEngines} from 2009 show that its search performance is said to be equally good as the one of Lucene.
 
 \section{Zettair}
 
 Another search engine that received a very positive rating in \cite{MiddletonBaeza} is Zettair \cite{ZettairHome}. 
-The comparison in this paper concludes that Zettair has the fastest indexer, provides fast querying speeds and has also the best precision/recall ratio in average. 
-Zettair is being developed at the Australian university and is written entirely
-in C. 
-One of its main features is the ability to handle large data
-sets (100 GB and more) due to its scalability to large collections \cite{ZettairHome}.
+The comparison in this paper concludes that Zettair has the fastest indexer, provides fast querying speeds and has also the best retrieval effectiveness on average. 
+Zettair is being developed at the Australian university and is written entirely in C. 
+One of its main features is the ability to handle large data sets (100 GB and more) due to its scalability to large collections \cite{ZettairHome}.
 
 Among its disadvantages belong its inability to index nothing else than text and html and the fact that the index cannot be built in
 parallel using multiple machines. 
 There are currently no ports to other languages available, so the full text search, when using Zettair, must be implemented in C.
-
 
 
 \section{Lucene-based Search Solutions}
@@ -115,7 +96,7 @@ There are currently no ports to other languages available, so the full text sear
 
 Popularity of Lucene is reflected in the existence of several search solutions which are based on this search library.
 Because Lucene itself as a search library provides the core functionality, i.e. indexing and searching documents, its direct integration in applications without any additional enhancements can be cumbersome in the most common use cases.
-Unless there are special requirements involving access to low-level APIs of Lucene, opting for the already proved search solutions is recommended [zdroje ze SO???].
+Unless there are special requirements involving access to low-level APIs of Lucene, opting for the already proved search solutions is recommended \cite{Solr3EnterpriseSS}.
 
 The solutions built on top of Lucene can be divided into \textit{search tools} and \textit{search servers}. 
 Search tools extend Lucene in a specific way to cover the problem domain and can be embedded to an application in a form of a library. 
@@ -150,6 +131,8 @@ This technology is configuration-driven and in some cases everything can be set 
 
 
 \subsubsection{ElasticSearch}
-%DODELAT
 
-Elastic Search \cite{ElasticSearchHome} is another promising young technology build on Lucene, designed from its early beginnings as a highly scalable solution suitable for big data.
+Elasticsearch \cite{ElasticSearchHome} is another promising young technology build on Lucene, designed from its early beginnings as a highly scalable solution suitable for big data.
+
+Unlike Solr, it provides a more flexible approach of data definition.
+Elasticsearch is a one-man project with a steadily growing community, but compared to Solr, it is relatively immature in terms of some of its features \cite{ElasticSearchComparisonSolr, ElasticSearchComparisonSolrAnother}.
